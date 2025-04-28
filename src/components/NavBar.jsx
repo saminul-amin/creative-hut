@@ -1,38 +1,38 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router";
-// import useAuth from "../hooks/useAuth";
+import useAuth from "../hooks/useAuth";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  // const { user, userLogOut } = useAuth();
+  const { user, userLogOut } = useAuth();
 
   const navLinks = [
-    { name: "My Notes", href: "/my-notes" },
-    { name: "FAQ", href: "/faq" },
-    // ...(user
-    //   ? [{ name: "Sign Out" }]
-    //   : [
-    //       { name: "Sign In", href: "/sign-in" },
-    //       { name: "Get Started", href: "/sign-up" },
-    //     ]),
+    { name: "About", href: "/about" },
+    { name: "How It Works", href: "/how-it-works" },
+    ...(user
+      ? [{ name: "Sign Out" }]
+      : [
+          { name: "Log in", href: "/login" },
+          { name: "Sign Up", href: "/sign-up" },
+        ]),
   ];
 
-  // const handleSignOut = () => {
-  //   userLogOut().then(() => console.log("Logged Out"));
-  // };
+  const handleSignOut = () => {
+    userLogOut().then(() => console.log("Logged Out"));
+  };
 
   return (
-    <nav className="bg-gray-500">
-      <div className=" text-white p-4 max-w-7xl mx-auto">
+    <nav className="bg-[#6fa1bd] fixed w-full backdrop-blur-sm z-50 opacity-80">
+      <div className="p-4 max-w-7xl mx-auto">
         <div className="container mx-auto flex justify-between items-center">
           <Link
             to={"/"}
             className="text-2xl font-bold transition-all duration-300 ease-in-out transform hover:scale-105 hover:text-yellow-300 cursor-pointer"
           >
-            NoteNest
+            CreativeHut
           </Link>
-          <div className="hidden md:flex space-x-8">
+          <div className="hidden md:flex space-x-8 font-bold">
             {navLinks.map((link) =>
               link.name === "Sign Out" ? (
                 <button
