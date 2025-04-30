@@ -8,11 +8,18 @@ const Navbar = () => {
   const { user, userLogOut } = useAuth();
 
   const navLinks = [
-    { name: "About", href: "/about" },
-    { name: "How It Works", href: "/how-it-works" },
     ...(user
-      ? [{ name: "Sign Out" }]
+      ? [
+          { name: "Dashboard", href: "/user/dashboard" },
+          { name: "Browse Jobs", href: "/all-jobs" },
+          { name: "My Works", href: "/my-works" },
+          { name: "Profile", href: "/profile" },
+          { name: "Sign Out" },
+        ]
       : [
+          { name: "Home", href: "/" },
+          { name: "About Us", href: "/about-us" },
+          { name: "Browse Jobs", href: "/all-jobs" },
           { name: "Log in", href: "/login" },
           { name: "Sign Up", href: "/sign-up" },
         ]),
@@ -57,7 +64,10 @@ const Navbar = () => {
             )}
           </div>
           <div className="md:hidden">
-            <button onClick={() => setIsOpen(!isOpen)}>
+            <button
+              className="cursor-pointer"
+              onClick={() => setIsOpen(!isOpen)}
+            >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
