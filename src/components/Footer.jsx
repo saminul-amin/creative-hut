@@ -20,12 +20,12 @@ export default function Footer() {
           <h3 className="text-xl font-semibold mb-4">Quick Links</h3>
           <ul className="space-y-2">
             <li>
-              <Link to="" className="hover:underline">
+              <Link to="/" className="hover:underline">
                 Home
               </Link>
             </li>
             <li>
-              <Link to="" className="hover:underline">
+              <Link to="/about-us" className="hover:underline">
                 About Us
               </Link>
             </li>
@@ -35,8 +35,8 @@ export default function Footer() {
               </Link>
             </li>
             <li>
-              <Link to="" className="hover:underline">
-                Contact
+              <Link to="/contact-us" className="hover:underline">
+                Contact Us
               </Link>
             </li>
           </ul>
@@ -52,7 +52,7 @@ export default function Footer() {
               </Link>
             </li>
             <li>
-              <Link to="" className="hover:underline">
+              <Link to="/faq" className="hover:underline">
                 FAQs
               </Link>
             </li>
