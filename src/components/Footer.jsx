@@ -89,7 +89,7 @@ export default function Footer() {
 
       {/* Bottom copyright */}
       <div className="mt-12 border-t border-white/30 pt-3 text-center text-sm">
-        &copy; {new Date().getFullYear()} CreativeHut. All rights reserved.
+        &copy; {new Date().getFullYear()} <span className="font-semibold">CreativeHut</span>. All rights reserved.
       </div>
     </footer>
   );
