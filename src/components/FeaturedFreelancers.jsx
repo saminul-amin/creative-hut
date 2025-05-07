@@ -67,8 +67,8 @@ const cardVariants = {
 
 const FeaturedFreelancers = () => {
   return (
-    <section className="from-white to-blue-50">
-      <div className="max-w-7xl mx-auto py-16 px-4 md:px-12 bg-gradient-to-t">
+    <section className="from-[#6fa1bd] to-blue-50 bg-gradient-to-tr">
+      <div className="max-w-7xl mx-auto py-16 px-4 md:px-12 ">
         <div className="max-w-7xl mx-auto text-center mb-10">
           <h2 className="text-3xl md:text-4xl font-bold text-blue-800 mb-2">
             Featured Freelancers
@@ -80,7 +80,7 @@ const FeaturedFreelancers = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {freelancers.map((freelancer, i) => (
+          {freelancers.map((freelancer, i) => ( // for(auto& freelancer : freelancers)
             <motion.div
               key={freelancer.id}
               custom={i}
