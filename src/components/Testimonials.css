@@ -4,12 +4,12 @@
 }
 
 .custom-swiper-pagination .swiper-pagination-bullet {
-  background-color: #4b5563; /* Tailwind slate-600 */
+  background-color: #4b5563; 
   opacity: 0.4;
   transition: all 0.3s ease;
 }
 
 .custom-swiper-pagination .swiper-pagination-bullet-active {
-  background-color: #1d4ed8; /* Tailwind blue-700 */
+  background-color: #1d4ed8; 
   opacity: 1;
 }

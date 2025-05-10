@@ -111,7 +111,7 @@ const Testimonials = () => {
             ))}
           </Swiper>
 
-          {/* Custom pagination container under the cards */}
+          {/* Debugging */}
           <div className="custom-swiper-pagination mt-8 flex justify-center"></div>
         </div>
       </div>
