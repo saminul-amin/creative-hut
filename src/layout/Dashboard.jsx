@@ -29,8 +29,8 @@ const Dashboard = () => {
 
   const currentUser = users.filter((entry) => user?.email === entry.email)[0];
   const role = currentUser?.role;
-  if(!currentUser || !role) {
-    return <Loading />
+  if (!currentUser || !role) {
+    return <Loading />;
   }
   console.log(role);
   console.log(currentUser);
@@ -44,11 +44,11 @@ const Dashboard = () => {
     role === "freelancer"
       ? [
           { name: "Dashboard", href: "/dashboard" },
-          { name: "My Gigs", href: "/my-gigs" },
-          { name: "Browse Jobs", href: "/browse-jobs" },
-          { name: "Wallet", href: "/wallet" },
-          { name: "My Skills", href: "/my-skills" },
-          { name: "My Profile", href: "/my-profile" },
+          { name: "My Gigs", href: "my-gigs" },
+          { name: "Browse Jobs", href: "browse-jobs" },
+          { name: "Wallet", href: "wallet" },
+          { name: "My Skills", href: "my-skills" },
+          { name: "My Profile", href: "freelancer-profile" },
         ]
       : role === "buyer"
       ? [
@@ -56,16 +56,16 @@ const Dashboard = () => {
           { name: "Post a Job", href: "post-job" },
           { name: "My Projects", href: "my-projects" },
           { name: "Find Freelancers", href: "find-freelancer" },
-          { name: "Wallet", href: "/wallet" },
-          { name: "My Profile", href: "/my-profile" },
+          { name: "Wallet", href: "wallet" },
+          { name: "My Profile", href: "buyer-profile" },
         ]
       : [
           { name: "Dashboard", href: "/dashboard" },
-          { name: "Users", href: "/users" },
-          { name: "Projects", href: "/all-projects" },
-          { name: "Payout Requests", href: "/payout-requests" },
-          { name: "Reports", href: "/reports" },
-          { name: "Disputes", href: "/disputes" },
+          { name: "Users", href: "users" },
+          { name: "Projects", href: "all-projects" },
+          { name: "Payout Requests", href: "payout-requests" },
+          { name: "Reports", href: "reports" },
+          { name: "Disputes", href: "disputes" },
         ],
   ];
 
@@ -137,7 +137,16 @@ const Dashboard = () => {
           <h1 className="text-xl font-semibold text-[#6fa1bd]">
             {roleName} Dashboard
           </h1>
-          <Link to="/my-profile" className="flex items-center gap-3 bg-gray-100 rounded-2xl px-4 py-1 hover:bg-gray-300 cursor-pointer">
+          <Link
+            to={
+              role === "freelancer"
+                ? "freelancer-profiel"
+                : role === "buyer"
+                ? "buyer-profile"
+                : "admin-profile"
+            }
+            className="flex items-center gap-3 bg-gray-100 rounded-2xl px-4 py-1 hover:bg-gray-300 cursor-pointer"
+          >
             <div className="flex flex-col">
               <span className="text-sm text-gray-500">{currentUser.name}</span>
               <span className="text-sm text-gray-500">{roleName}</span>

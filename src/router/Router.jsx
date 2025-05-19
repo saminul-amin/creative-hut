@@ -13,6 +13,9 @@ import BuyerDashboard from "../pages/buyer/BuyerDashboard";
 import PostJob from "../pages/buyer/PostJob";
 import MyProjects from "../pages/buyer/MyProjects";
 import FindFreelancer from "../pages/buyer/FindFreelancers";
+import MyProfile from "../pages/freelancer/FreelancerProfile";
+import BuyerProfile from "../pages/buyer/BuyerProfile";
+import FreelancerProfile from "../pages/freelancer/FreelancerProfile";
 
 const router = createBrowserRouter([
   {
@@ -69,6 +72,14 @@ const router = createBrowserRouter([
       {
         path: "find-freelancer",
         element: <FindFreelancer />,
+      },
+      {
+        path: "freelancer-profile",
+        element: <FreelancerProfile />,
+      },
+      {
+        path: "buyer-profile",
+        element: <BuyerProfile />,
       },
     ],
   },
