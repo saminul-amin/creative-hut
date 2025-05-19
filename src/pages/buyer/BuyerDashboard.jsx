@@ -127,10 +127,16 @@ const BuyerDashboard = () => {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
       >
-        <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg flex justify-center items-center gap-2 transition">
-          <FaPlus /> Post New Job
-        </button>
-        <button className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-3 rounded-lg flex justify-center items-center gap-2 transition">
+        <motion.button
+          type="submit"
+          className="flex-1 font-semibold bg-[#6fa1bd] hover:bg-[#5a8aa3] text-white py-3 rounded-lg flex justify-center items-center gap-2 transition-all cursor-pointer"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ duration: 0.2 }}
+        >
+          <FaPlus /> Post a New Job
+        </motion.button>
+        <button className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-3 rounded-lg flex justify-center items-center gap-2 transition-all cursor-pointer">
           <FaUsers /> View Applicants
         </button>
       </motion.div>

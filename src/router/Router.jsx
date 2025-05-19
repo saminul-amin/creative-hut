@@ -10,6 +10,9 @@ import PrivacyPolicy from "../pages/PrivacyPolicy";
 import ErrorPage from "../pages/ErrorPage";
 import Dashboard from "../layout/Dashboard";
 import BuyerDashboard from "../pages/buyer/BuyerDashboard";
+import PostJob from "../pages/buyer/PostJob";
+import MyProjects from "../pages/buyer/MyProjects";
+import FindFreelancer from "../pages/buyer/FindFreelancers";
 
 const router = createBrowserRouter([
   {
@@ -54,7 +57,19 @@ const router = createBrowserRouter([
       {
         path: "",
         element: <BuyerDashboard />,
-      }
+      },
+      {
+        path: "post-job",
+        element: <PostJob />,
+      },
+      {
+        path: "my-projects",
+        element: <MyProjects />,
+      },
+      {
+        path: "find-freelancer",
+        element: <FindFreelancer />,
+      },
     ],
   },
 ]);

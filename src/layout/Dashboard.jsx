@@ -53,9 +53,9 @@ const Dashboard = () => {
       : role === "buyer"
       ? [
           { name: "Dashboard", href: "/dashboard" },
-          { name: "Post a Job", href: "/post-job" },
-          { name: "My Projects", href: "/my-projects" },
-          { name: "Find Freelancers", href: "/find-freelancer" },
+          { name: "Post a Job", href: "post-job" },
+          { name: "My Projects", href: "my-projects" },
+          { name: "Find Freelancers", href: "find-freelancer" },
           { name: "Wallet", href: "/wallet" },
           { name: "My Profile", href: "/my-profile" },
         ]
@@ -107,7 +107,7 @@ const Dashboard = () => {
               className={({ isActive }) =>
                 `flex items-center gap-3 py-2 rounded-md transition ${
                   isActive
-                    ? "bg-blue-100 text-blue-600 font-semibold"
+                    ? "bg-blue-100 text-[#6fa1bd] font-semibold"
                     : "text-gray-700 hover:bg-gray-100"
                 } ${isSidebarOpen ? "px-3" : "px-0"}`
               }
@@ -134,10 +134,10 @@ const Dashboard = () => {
       <div className="flex-1 flex flex-col">
         {/* Topbar */}
         <header className="bg-white shadow px-6 py-4 flex items-center justify-between">
-          <h1 className="text-xl font-semibold text-blue-700">
+          <h1 className="text-xl font-semibold text-[#6fa1bd]">
             {roleName} Dashboard
           </h1>
-          <Link to="/my-profile" className="flex items-center gap-3 bg-gray-100 rounded-2xl px-4 py-2 hover:bg-gray-300 cursor-pointer">
+          <Link to="/my-profile" className="flex items-center gap-3 bg-gray-100 rounded-2xl px-4 py-1 hover:bg-gray-300 cursor-pointer">
             <div className="flex flex-col">
               <span className="text-sm text-gray-500">{currentUser.name}</span>
               <span className="text-sm text-gray-500">{roleName}</span>
