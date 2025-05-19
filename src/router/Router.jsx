@@ -8,6 +8,8 @@ import AboutUs from "../pages/AboutUs";
 import ContactUs from "../pages/ContactUs";
 import PrivacyPolicy from "../pages/PrivacyPolicy";
 import ErrorPage from "../pages/ErrorPage";
+import Dashboard from "../layout/Dashboard";
+import BuyerDashboard from "../pages/buyer/BuyerDashboard";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +45,16 @@ const router = createBrowserRouter([
         path: "privacy-policy",
         element: <PrivacyPolicy />,
       },
+    ],
+  },
+  {
+    path: "dashboard",
+    element: <Dashboard />,
+    children: [
+      {
+        path: "",
+        element: <BuyerDashboard />,
+      }
     ],
   },
 ]);

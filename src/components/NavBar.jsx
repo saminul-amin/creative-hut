@@ -10,7 +10,7 @@ const Navbar = () => {
   const navLinks = [
     ...(user
       ? [
-          { name: "Dashboard", href: "/user/dashboard" },
+          { name: "Dashboard", href: "/dashboard" },
           { name: "Browse Jobs", href: "/all-jobs" },
           { name: "My Works", href: "/my-works" },
           { name: "Profile", href: "/profile" },
