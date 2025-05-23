@@ -25,7 +25,7 @@ const Dashboard = () => {
     },
   });
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loading />;
 
   const currentUser = users.filter((entry) => user?.email === entry.email)[0];
   const role = currentUser?.role;

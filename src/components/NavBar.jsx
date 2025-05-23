@@ -2,15 +2,18 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router";
 import useAuth from "../hooks/useAuth";
+import useRole from "../hooks/useRole";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, userLogOut } = useAuth();
+  const role = useRole();
+  // console.log(role);
 
   const navLinks = [
     ...(user
       ? [
-          { name: "Dashboard", href: "/dashboard" },
+          { name: "Dashboard", href: `/${role}/dashboard` },
           { name: "Browse Jobs", href: "/all-jobs" },
           { name: "My Works", href: "/my-works" },
           { name: "Profile", href: "/profile" },
