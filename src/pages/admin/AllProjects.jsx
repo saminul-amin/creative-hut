@@ -91,7 +91,7 @@ const AllProjects = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
-      <h2 className="text-2xl font-bold text-blue-700 mb-6">📦 All Projects</h2>
+      <h2 className="text-2xl font-bold text-[#6fa1bd] mb-6">All Projects</h2>
 
       <div className="overflow-x-auto bg-white rounded-xl shadow">
         <table className="min-w-full text-sm text-left">
@@ -103,7 +103,7 @@ const AllProjects = () => {
               <th className="px-4 py-3">Budget</th>
               <th className="px-4 py-3">Deadline</th>
               <th className="px-4 py-3">Status</th>
-              <th className="px-4 py-3">Actions</th>
+              <th className="px-4 py-3 text-center">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y text-gray-700">
@@ -128,15 +128,13 @@ const AllProjects = () => {
                     <option>Pending</option>
                   </select>
                 </td>
-                <td className="px-4 py-3 flex gap-3 text-blue-600">
-                  <button className="hover:text-blue-800 text-sm">
-                    <FaEye /> View
-                  </button>
+                <td className="px-4 py-3 gap-3 text-center">
+                  
                   <button
                     onClick={() => handleDelete(project._id)}
-                    className="text-red-600 hover:text-red-800 text-sm"
+                    className="text-red-600 hover:text-red-800 text-sm cursor-pointer p-2 rounded-full bg-gray-200 hover:bg-gray-400 transition-colors"
                   >
-                    <FaTrashAlt /> Delete
+                    <FaTrashAlt />  
                   </button>
                 </td>
               </tr>

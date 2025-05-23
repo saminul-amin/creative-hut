@@ -25,7 +25,7 @@ const AdminDashboard = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <h1 className="text-3xl font-bold text-blue-700">🛡 Admin Dashboard</h1>
+      <h1 className="text-3xl font-extrabold text-[#6fa1bd]">Admin Dashboard</h1>
 
       {/* User Stats & Revenue */}
       <motion.div
@@ -38,7 +38,7 @@ const AdminDashboard = () => {
           <FaUsers className="text-2xl text-blue-600 mx-auto mb-2" />
           <h4 className="text-sm text-gray-500">Total Buyers</h4>
           <p className="text-xl font-bold text-gray-800">{stats.buyers}</p>
-          <button className="mt-3 text-sm text-blue-600 hover:underline">
+          <button className="mt-3 text-sm text-[#6fa1bd] hover:underline cursor-pointer">
             View Buyers <FaArrowRight className="inline ml-1" />
           </button>
         </div>
@@ -46,7 +46,7 @@ const AdminDashboard = () => {
           <FaUserTie className="text-2xl text-purple-600 mx-auto mb-2" />
           <h4 className="text-sm text-gray-500">Total Freelancers</h4>
           <p className="text-xl font-bold text-gray-800">{stats.freelancers}</p>
-          <button className="mt-3 text-sm text-blue-600 hover:underline">
+          <button className="mt-3 text-sm text-[#6fa1bd] hover:underline cursor-pointer">
             View Freelancers <FaArrowRight className="inline ml-1" />
           </button>
         </div>
@@ -54,7 +54,7 @@ const AdminDashboard = () => {
           <FaMoneyCheckAlt className="text-2xl text-green-600 mx-auto mb-2" />
           <h4 className="text-sm text-gray-500">Total Revenue</h4>
           <p className="text-xl font-bold text-gray-800">${stats.revenue.toLocaleString()}</p>
-          <button className="mt-3 text-sm text-blue-600 hover:underline">
+          <button className="mt-3 text-sm text-[#6fa1bd] hover:underline cursor-pointer">
             View Revenue <FaArrowRight className="inline ml-1" />
           </button>
         </div>
@@ -68,8 +68,8 @@ const AdminDashboard = () => {
         transition={{ delay: 0.2 }}
       >
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-blue-800">💸 Pending Payout Requests</h3>
-          <button className="text-sm text-blue-600 hover:underline">
+          <h3 className="text-lg font-semibold text-[#6fa1bd]">Pending Payout Requests</h3>
+          <button className="text-sm text-[#6fa1bd] hover:underline cursor-pointer">
             Manage Payouts <FaArrowRight className="inline ml-1" />
           </button>
         </div>
@@ -95,8 +95,8 @@ const AdminDashboard = () => {
         transition={{ delay: 0.3 }}
       >
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-blue-800">🔐 Verification Queue</h3>
-          <button className="text-sm text-blue-600 hover:underline">
+          <h3 className="text-lg font-semibold text-[#6fa1bd]">Verification Queue</h3>
+          <button className="text-sm text-[#6fa1bd] hover:underline cursor-pointer">
             View Verifications <FaArrowRight className="inline ml-1" />
           </button>
         </div>

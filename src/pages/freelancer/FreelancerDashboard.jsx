@@ -59,8 +59,8 @@ const FreelancerDashboard = () => {
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.2 }}
       >
-        <h3 className="text-lg font-semibold mb-4 text-blue-800">
-          📝 Recent Job Postings
+        <h3 className="text-lg font-semibold mb-4 text-[#6fa1bd]">
+          Recent Job Postings
         </h3>
         <ul className="space-y-2 text-sm text-gray-700">
           {recentJobs.map((job, i) => (
@@ -81,8 +81,8 @@ const FreelancerDashboard = () => {
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.3 }}
       >
-        <h3 className="text-lg font-semibold mb-4 text-blue-800">
-          📦 Gigs Summary
+        <h3 className="text-lg font-semibold mb-4 text-[#6fa1bd]">
+          Gigs Summary
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
           <div className="bg-blue-100 text-blue-700 p-4 rounded-lg">
@@ -107,10 +107,10 @@ const FreelancerDashboard = () => {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
       >
-        <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg flex justify-center items-center gap-2 transition">
+        <button className="flex-1 font-semibold bg-[#6fa1bd] hover:bg-[#5a8aa3] text-white py-3 rounded-lg flex justify-center items-center gap-2 transition-all cursor-pointer">
           <FaPlus /> Create New Gig
         </button>
-        <button className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-3 rounded-lg flex justify-center items-center gap-2 transition">
+        <button className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-3 rounded-lg flex justify-center items-center gap-2 transition-all cursor-pointer">
           <FaRocket /> Apply to Job
         </button>
       </motion.div>

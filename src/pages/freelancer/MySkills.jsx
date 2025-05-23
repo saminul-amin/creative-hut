@@ -42,8 +42,8 @@ const MySkills = () => {
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
     >
-      <h2 className="text-2xl font-bold text-blue-700 flex items-center gap-2">
-        🛠 My Skills
+      <h2 className="text-2xl font-bold text-[#6fa1bd] flex items-center gap-2">
+        My Skills
       </h2>
 
       {/* Add/Edit Skill Form */}
@@ -58,7 +58,7 @@ const MySkills = () => {
           onChange={(e) =>
             setFormState((prev) => ({ ...prev, name: e.target.value }))
           }
-          className="p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="p-3 border rounded focus:outline-none focus:ring-2 focus:ring-[#6fa1bd]"
           required
         />
         <select
@@ -66,7 +66,7 @@ const MySkills = () => {
           onChange={(e) =>
             setFormState((prev) => ({ ...prev, level: e.target.value }))
           }
-          className="p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="p-3 border rounded focus:outline-none focus:ring-2 focus:ring-[#6fa1bd] cursor-pointer"
         >
           <option>Beginner</option>
           <option>Intermediate</option>
@@ -74,7 +74,7 @@ const MySkills = () => {
         </select>
         <button
           type="submit"
-          className="sm:col-span-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+          className="sm:col-span-2 bg-[#6fa1bd] hover:bg-[#5a8aa3] text-white px-4 py-2 rounded cursor-pointer"
         >
           {editId ? "Update Skill" : "Add Skill"}
         </button>
@@ -105,14 +105,14 @@ const MySkills = () => {
                   <div className="flex gap-3">
                     <button
                       onClick={() => handleEdit(skill)}
-                      className="text-yellow-600 hover:text-yellow-800"
+                      className="text-yellow-600 hover:text-yellow-800 cursor-pointer"
                       title="Edit"
                     >
                       <FaEdit />
                     </button>
                     <button
                       onClick={() => handleDelete(skill.id)}
-                      className="text-red-600 hover:text-red-800"
+                      className="text-red-600 hover:text-red-800 cursor-pointer"
                       title="Delete"
                     >
                       <FaTrash />

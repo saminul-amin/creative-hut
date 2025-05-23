@@ -39,7 +39,7 @@ const PayoutRequests = () => {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-10">
-      <h2 className="text-2xl font-bold text-blue-700 mb-6">💸 Payout Requests</h2>
+      <h2 className="text-2xl font-bold text-[#6fa1bd] mb-6">Payout Requests</h2>
 
       <div className="overflow-x-auto bg-white rounded-xl shadow">
         <table className="min-w-full text-sm text-left">
@@ -78,13 +78,13 @@ const PayoutRequests = () => {
                     <>
                       <button
                         onClick={() => handleStatusChange(req.id, "Approved")}
-                        className="text-green-600 hover:text-green-800 flex items-center gap-1 text-sm"
+                        className="text-green-600 hover:text-green-800 flex items-center gap-1 text-sm cursor-pointer hover:underline"
                       >
                         <FaCheck /> Approve
                       </button>
                       <button
                         onClick={() => handleStatusChange(req.id, "Declined")}
-                        className="text-red-600 hover:text-red-800 flex items-center gap-1 text-sm"
+                        className="text-red-600 hover:text-red-800 flex items-center gap-1 text-sm cursor-pointer hover:underline"
                       >
                         <FaTimes /> Decline
                       </button>

@@ -58,10 +58,10 @@ const MyGigs = () => {
     >
       {/* Header */}
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-blue-700">🎨 My Gigs</h2>
+        <h2 className="text-2xl font-bold text-[#6fa1bd]">My Gigs</h2>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded flex items-center gap-2 text-sm"
+          className="bg-[#6fa1bd] hover:bg-[#5a8aa3] text-white font-semibold px-4 py-2 rounded flex items-center gap-2 text-sm cursor-pointer transition-all"
         >
           <FaPlus /> {showForm ? "Cancel" : "Add New Gig"}
         </button>
@@ -69,7 +69,7 @@ const MyGigs = () => {
 
       {/* Gig List */}
       <div className="bg-white p-6 rounded-xl shadow">
-        <h3 className="text-lg font-semibold mb-4 text-blue-800">Gig List</h3>
+        <h3 className="text-lg font-semibold mb-4 text-[#6fa1bd]">Gig List</h3>
         <table className="w-full text-sm text-left">
           <thead className="bg-gray-100 text-gray-600 uppercase">
             <tr>
@@ -98,7 +98,7 @@ const MyGigs = () => {
                 </td>
                 <td className="px-4 py-2">${gig.price}</td>
                 <td className="px-4 py-2 flex gap-2">
-                  <button className="text-blue-600 hover:text-blue-800">
+                  <button className="text-[#6fa1bd] hover:text-[#6fa1bd]">
                     <FaEye />
                   </button>
                   <button className="text-yellow-600 hover:text-yellow-700">
@@ -122,8 +122,8 @@ const MyGigs = () => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.4 }}
         >
-          <h3 className="text-lg font-semibold text-blue-800 mb-4">
-            🆕 Create New Gig
+          <h3 className="text-lg font-semibold text-[#6fa1bd] mb-4">
+            Create New Gig
           </h3>
           <form onSubmit={handleGigSubmit} className="space-y-4">
             <div>
@@ -228,7 +228,7 @@ const MyGigs = () => {
             <div>
               <button
                 type="submit"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded"
+                className="bg-[#6fa1bd] hover:bg-[#5a8aa3] text-white px-5 py-2 rounded transition-all cursor-pointer"
               >
                 Submit Gig
               </button>

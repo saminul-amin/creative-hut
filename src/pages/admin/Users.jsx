@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { FaUserSlash } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const fetchUsers = async () => {
   const res = await fetch("http://localhost:5000/users");
@@ -20,6 +21,23 @@ const Users = () => {
 
   const handleSuspend = (user) => {
     console.log(`Suspend requested for user:`, user);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Suspend him!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Deleted!",
+          text: "User has been deleted permanently!",
+          icon: "success",
+        });
+      }
+    });
     // TODO: Add API call for suspending user
   };
 
@@ -31,8 +49,8 @@ const Users = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
-      <h2 className="text-2xl font-bold text-blue-700 mb-6">
-        👥 All Registered Users
+      <h2 className="text-2xl font-bold text-[#6fa1bd] mb-6">
+        All Registered Users
       </h2>
 
       <div className="overflow-x-auto bg-white rounded-xl shadow">
@@ -60,7 +78,7 @@ const Users = () => {
                 <td className="px-4 py-3">
                   <button
                     onClick={() => handleSuspend(user)}
-                    className="text-red-600 hover:text-red-800 text-sm flex items-center gap-1"
+                    className="text-red-600 hover:text-red-800 text-sm flex items-center gap-1 cursor-pointer hover:underline"
                   >
                     <FaUserSlash /> Suspend
                   </button>

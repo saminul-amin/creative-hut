@@ -60,11 +60,11 @@ const BrowseJobs = () => {
   return (
     <section className="max-w-6xl mx-auto py-12 px-4 space-y-10">
       <motion.h1
-        className="text-3xl font-bold text-center text-blue-700"
+        className="text-3xl font-bold text-center text-[#6fa1bd]"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        💼 Browse Jobs
+        Browse Jobs
       </motion.h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -81,12 +81,12 @@ const BrowseJobs = () => {
             />
             <div className="p-5 space-y-2 flex-1 flex flex-col justify-between">
               <div>
-                <h2 className="text-lg font-bold text-blue-700">{job.title}</h2>
+                <h2 className="text-lg font-bold text-[#6fa1bd]">{job.title}</h2>
                 <p className="text-sm text-gray-500">{job.category}</p>
               </div>
               <div className="flex items-center gap-4 text-sm text-gray-600 mt-2">
                 <span className="flex items-center gap-1">
-                  <FaMoneyBillWave /> {job.budget}
+               <FaMoneyBillWave /> {job.budget}
                 </span>
                 <span className="flex items-center gap-1">
                   <FaClock /> {job.posted}
@@ -94,7 +94,7 @@ const BrowseJobs = () => {
               </div>
               <button
                 onClick={() => setSelectedJob(job)}
-                className="mt-4 text-sm bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                className="mt-4 text-sm bg-[#6fa1bd] text-white px-4 py-2 rounded hover:bg-[#5a8aa3] cursor-pointer"
               >
                 View Details
               </button>
@@ -129,11 +129,11 @@ const BrowseJobs = () => {
               </button>
 
               {/* Job Details */}
-              <h2 className="text-xl font-bold text-blue-700 mb-2">
+              <h2 className="text-xl font-bold text-[#6fa1bd] mb-2">
                 {selectedJob.title}
               </h2>
               <p className="text-sm text-gray-600 mb-2">
-                {selectedJob.category} · {selectedJob.budget} ·{" "}
+                {selectedJob.category} · {selectedJob.budt} ·{" "}
                 {selectedJob.posted}
               </p>
               <p className="text-gray-700 text-sm mb-4">
@@ -161,8 +161,8 @@ const BrowseJobs = () => {
               </div>
 
               <Link to="/freelancer/proposal-submission">
-                <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-md text-sm font-medium">
-                  🚀 Apply to this Job
+                <button className="w-full bg-[#6fa1bd] hover:bg-[#5a8aa3] text-white py-3 rounded-md text-sm font-medium cursor-pointer">
+                  Apply to this Job
                 </button>
               </Link>
             </motion.div>

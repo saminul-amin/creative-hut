@@ -40,7 +40,7 @@ const BuyerDashboard = () => {
         transition={{ duration: 0.6 }}
       >
         <div className="bg-white p-6 rounded-xl shadow text-center">
-          <FaDollarSign className="text-2xl mx-auto text-blue-600 mb-2" />
+          <FaDollarSign className="text-2xl mx-auto text-[#6fa1bd]text-blue-600 mb-2" />
           <h4 className="text-sm text-gray-500">Total Spending</h4>
           <p className="text-xl font-bold text-gray-800">${stats.spending}</p>
         </div>
@@ -65,8 +65,8 @@ const BuyerDashboard = () => {
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.2 }}
       >
-        <h3 className="text-lg font-semibold mb-4 text-blue-800">
-          📥 Recent Applications
+        <h3 className="text-lg font-bold mb-4 text-[#6fa1bd]">
+          Recent Applications
         </h3>
         <ul className="space-y-2 text-sm text-gray-700">
           {recentApplications.map((app, i) => (
@@ -87,14 +87,14 @@ const BuyerDashboard = () => {
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.3 }}
       >
-        <h3 className="text-lg font-semibold mb-4 text-blue-800">
-          📂 Active Projects
+        <h3 className="text-lg font-bold mb-4 text-[#6fa1bd]">
+          Active Projects
         </h3>
         <ul className="space-y-2 text-sm text-gray-700">
           {activeProjects.map((proj, i) => (
             <li key={i} className="flex justify-between border-b pb-2">
               <span>{proj.title}</span>
-              <span className="text-blue-600 font-medium">{proj.status}</span>
+              <span className="text-[#6fa1bd] font-medium">{proj.status}</span>
             </li>
           ))}
         </ul>
@@ -107,8 +107,8 @@ const BuyerDashboard = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
       >
-        <h3 className="text-lg font-semibold mb-4 text-blue-800">
-          ⭐ Top Freelancers
+        <h3 className="text-lg font-bold mb-4 text-[#6fa1bd]">
+          Top Freelancers
         </h3>
         <ul className="space-y-2 text-sm text-gray-700">
           {topFreelancers.map((freelancer, i) => (

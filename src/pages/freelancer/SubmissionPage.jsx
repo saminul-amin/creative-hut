@@ -22,8 +22,8 @@ const SubmissionPage = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
     >
-      <h1 className="text-2xl font-bold text-blue-700 text-center mb-4">
-        🚀 Submit Your Proposal
+      <h1 className="text-2xl font-bold text-[#6fa1bd] text-center mb-4">
+        Submit Your Proposal
       </h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Cover Letter */}
@@ -41,7 +41,7 @@ const SubmissionPage = () => {
             })}
             rows="5"
             placeholder="Why are you the best fit for this job?"
-            className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-[#6fa1bd]"
           ></textarea>
           {errors.coverLetter && (
             <p className="text-red-500 text-sm mt-1">
@@ -62,7 +62,7 @@ const SubmissionPage = () => {
               required: "Delivery time is required",
               min: { value: 1, message: "Minimum 1 day" },
             })}
-            className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-[#6fa1bd]"
             placeholder="e.g., 7"
           />
           {errors.deliveryTime && (
@@ -83,7 +83,7 @@ const SubmissionPage = () => {
               required: "Bid amount is required",
               min: { value: 1, message: "Minimum bid is $1" },
             })}
-            className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-[#6fa1bd]"
             placeholder="e.g., 150"
           />
           {errors.bidAmount && (
@@ -101,7 +101,7 @@ const SubmissionPage = () => {
           <input
             type="file"
             {...register("attachment")}
-            className="w-full p-3 border rounded bg-white text-sm file:mr-3 file:py-2 file:px-4 file:rounded file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700"
+            className="w-full p-3 border rounded bg-white text-sm file:mr-3 file:py-2 file:px-4 file:rounded file:border-0 file:bg-[#6fa1bd] file:text-white hover:file:bg-[#5a8aa3]"
           />
         </div>
 
@@ -114,18 +114,18 @@ const SubmissionPage = () => {
             {...register("remarks")}
             rows="3"
             placeholder="Any final notes for the client..."
-            className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-[#6fa1bd]"
           ></textarea>
         </div>
 
         {/* Submit Button */}
         <motion.button
           type="submit"
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-all"
+          className="w-full bg-[#6fa1bd] hover:bg-[#5a8aa3] text-white font-semibold py-3 rounded-lg transition-all cursor-pointer"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
-          📩 Submit Proposal
+          Submit Proposal
         </motion.button>
       </form>
     </motion.div>
