@@ -17,6 +17,10 @@ import MyProfile from "../pages/freelancer/FreelancerProfile";
 import BuyerProfile from "../pages/buyer/BuyerProfile";
 import FreelancerProfile from "../pages/freelancer/FreelancerProfile";
 import FreelancerDashboard from "../pages/freelancer/FreelancerDashboard";
+import MyGigs from "../pages/freelancer/MyGigs";
+import BrowseJobs from "../pages/freelancer/BrowseJobs";
+import SubmissionPage from "../pages/freelancer/SubmissionPage";
+import MySkills from "../pages/freelancer/MySkills";
 
 const router = createBrowserRouter([
   {
@@ -75,11 +79,7 @@ const router = createBrowserRouter([
         element: <FindFreelancer />,
       },
       {
-        path: "freelancer-profile",
-        element: <FreelancerProfile />,
-      },
-      {
-        path: "buyer-profile",
+        path: "profile",
         element: <BuyerProfile />,
       },
     ],
@@ -93,24 +93,24 @@ const router = createBrowserRouter([
         element: <FreelancerDashboard />,
       },
       {
-        path: "post-job",
-        element: <PostJob />,
+        path: "my-gigs",
+        element: <MyGigs />,
       },
       {
-        path: "my-projects",
-        element: <MyProjects />,
+        path: "my-skills",
+        element: <MySkills />,
       },
       {
-        path: "find-freelancer",
-        element: <FindFreelancer />,
+        path: "browse-jobs",
+        element: <BrowseJobs />,
       },
       {
-        path: "freelancer-profile",
+        path: "profile",
         element: <FreelancerProfile />,
       },
       {
-        path: "buyer-profile",
-        element: <BuyerProfile />,
+        path: "proposal-submission",
+        element: <SubmissionPage />,
       },
     ],
   },

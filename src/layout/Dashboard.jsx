@@ -43,24 +43,24 @@ const Dashboard = () => {
   const navLinks = [
     role === "freelancer"
       ? [
-          { name: "Dashboard", href: "/dashboard" },
+          { name: "Dashboard", href: "/freelancer/dashboard" },
           { name: "My Gigs", href: "my-gigs" },
           { name: "Browse Jobs", href: "browse-jobs" },
           { name: "Wallet", href: "wallet" },
           { name: "My Skills", href: "my-skills" },
-          { name: "My Profile", href: "freelancer-profile" },
+          { name: "My Profile", href: "profile" },
         ]
       : role === "buyer"
       ? [
-          { name: "Dashboard", href: "/dashboard" },
+          { name: "Dashboard", href: "/buyer/dashboard" },
           { name: "Post a Job", href: "post-job" },
           { name: "My Projects", href: "my-projects" },
           { name: "Find Freelancers", href: "find-freelancer" },
           { name: "Wallet", href: "wallet" },
-          { name: "My Profile", href: "buyer-profile" },
+          { name: "My Profile", href: "/buyer/profile" },
         ]
       : [
-          { name: "Dashboard", href: "/dashboard" },
+          { name: "Dashboard", href: "/admin/dashboard" },
           { name: "Users", href: "users" },
           { name: "Projects", href: "all-projects" },
           { name: "Payout Requests", href: "payout-requests" },
