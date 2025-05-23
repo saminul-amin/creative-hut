@@ -13,7 +13,6 @@ import BuyerDashboard from "../pages/buyer/BuyerDashboard";
 import PostJob from "../pages/buyer/PostJob";
 import MyProjects from "../pages/buyer/MyProjects";
 import FindFreelancer from "../pages/buyer/FindFreelancers";
-import MyProfile from "../pages/freelancer/FreelancerProfile";
 import BuyerProfile from "../pages/buyer/BuyerProfile";
 import FreelancerProfile from "../pages/freelancer/FreelancerProfile";
 import FreelancerDashboard from "../pages/freelancer/FreelancerDashboard";
@@ -21,6 +20,10 @@ import MyGigs from "../pages/freelancer/MyGigs";
 import BrowseJobs from "../pages/freelancer/BrowseJobs";
 import SubmissionPage from "../pages/freelancer/SubmissionPage";
 import MySkills from "../pages/freelancer/MySkills";
+import AdminDashboard from "../pages/admin/AdminDashboard";
+import Users from "../pages/admin/Users";
+import AllProjects from "../pages/admin/AllProjects";
+import PayoutRequests from "../pages/admin/PayoutRequests";
 
 const router = createBrowserRouter([
   {
@@ -111,6 +114,28 @@ const router = createBrowserRouter([
       {
         path: "proposal-submission",
         element: <SubmissionPage />,
+      },
+    ],
+  },
+  {
+    path: "admin",
+    element: <Dashboard />,
+    children: [
+      {
+        path: "dashboard",
+        element: <AdminDashboard />,
+      },
+      {
+        path: "users",
+        element: <Users />,
+      },
+      {
+        path: "all-projects",
+        element: <AllProjects />,
+      },
+      {
+        path: "payout-requests",
+        element: <PayoutRequests />,
       },
     ],
   },

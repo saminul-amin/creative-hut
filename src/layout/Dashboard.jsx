@@ -64,8 +64,6 @@ const Dashboard = () => {
           { name: "Users", href: "users" },
           { name: "Projects", href: "all-projects" },
           { name: "Payout Requests", href: "payout-requests" },
-          { name: "Reports", href: "reports" },
-          { name: "Disputes", href: "disputes" },
         ],
   ];
 
