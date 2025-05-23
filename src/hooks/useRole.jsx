@@ -8,7 +8,7 @@ export default function useRole() {
   const { data: users = [], isLoading } = useQuery({
     queryKey: ["tasks"],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/users`);
+      const res = await fetch(`https://creative-hut-server.vercel.app/users`);
       if (!res.ok) throw new Error("Failed to fetch users");
       return res.json();
     },

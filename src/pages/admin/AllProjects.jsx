@@ -51,7 +51,7 @@ const projects = [
 
 
 const fetchProjects = async () => {
-  const res = await fetch("http://localhost:5000/projects");
+  const res = await fetch("https://creative-hut-server.vercel.app/projects");
   if (!res.ok) throw new Error("Failed to fetch projects");
   return res.json();
 };

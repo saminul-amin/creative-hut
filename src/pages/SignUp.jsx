@@ -15,7 +15,7 @@ export default function SignUp() {
 
   const onSubmit = (data) => {
     console.log(data);
-    fetch("http://localhost:5000/users", {
+    fetch("https://creative-hut-server.vercel.app/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
