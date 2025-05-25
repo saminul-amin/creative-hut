@@ -3,12 +3,15 @@ import { motion } from "framer-motion";
 import useAuth from "../hooks/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useState } from "react";
 
 export default function SignUp() {
+  const [selectedRole, setSelectedRole] = useState("buyer");
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
   const { createUser, userGoogleSignIn } = useAuth();
   const navigate = useNavigate();
@@ -56,6 +59,11 @@ export default function SignUp() {
       console.log(res.user);
       navigate("/");
     });
+  };
+
+  const handleRoleSelect = (role) => {
+    setSelectedRole(role);
+    setValue("role", role); // ✅ set for react-hook-form
   };
 
   return (
@@ -128,26 +136,69 @@ export default function SignUp() {
             )}
           </motion.div>
 
+          {/* Role Push Toggle */}
           <motion.div
-            initial={{ x: 50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.65, duration: 0.5 }}
+            className="flex gap-4 mt-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
           >
-            <select
+            <input
+              type="hidden"
               {...register("role", { required: "Role is required" })}
-              className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#6fa1bd] cursor-pointer"
-              defaultValue=""
+            />
+
+            <button
+              type="button"
+              onClick={() => handleRoleSelect("buyer")}
+              className={`flex-1 p-3 rounded-lg border font-medium transition cursor-pointer ${
+                selectedRole === "buyer"
+                  ? "bg-[#6fa1bd] text-white border-[#6fa1bd]"
+                  : "bg-white border-gray-300 text-gray-700"
+              }`}
             >
-              <option value="" disabled>
-                Select Role
-              </option>
-              <option value="freelancer">Freelancer</option>
-              <option value="buyer">Buyer</option>
-            </select>
-            {errors.role && (
-              <p className="text-red-500 text-sm mt-1">{errors.role.message}</p>
-            )}
+              I'm a Buyer
+            </button>
+
+            <button
+              type="button"
+              onClick={() => handleRoleSelect("freelancer")}
+              className={`flex-1 p-3 rounded-lg border font-medium transition cursor-pointer ${
+                selectedRole === "freelancer"
+                  ? "bg-[#6fa1bd] text-white border-[#6fa1bd]"
+                  : "bg-white border-gray-300 text-gray-700"
+              }`}
+            >
+              I'm a Freelancer
+            </button>
           </motion.div>
+
+          {/* ✅ Conditional NID Field for Freelancers */}
+          {selectedRole === "freelancer" && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1, duration: 0.4 }}
+            >
+              <input
+                type="text"
+                {...register("nid", {
+                  required: "NID number is required for freelancers",
+                  minLength: {
+                    value: 8,
+                    message: "Must be at least 8 digits",
+                  },
+                })}
+                placeholder="NID Number"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6fa1bd]"
+              />
+              {errors.nid && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.nid.message}
+                </p>
+              )}
+            </motion.div>
+          )}
 
           <motion.button
             type="submit"
