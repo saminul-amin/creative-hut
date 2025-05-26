@@ -1,55 +1,40 @@
+// ✅ BrowseJobs.jsx — Now with Pagination + More Dummy Jobs
+
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaClock, FaBriefcase, FaMoneyBillWave, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const jobs = [
-  {
-    id: 1,
-    title: "Build a Product Landing Page",
-    category: "Web Development",
-    budget: "$120",
-    thumbnail: "https://source.unsplash.com/featured/?landingpage",
-    posted: "2 hours ago",
-    description:
-      "Need a clean, responsive landing page for a tech product. Should be built with React + Tailwind CSS.",
-    buyer: {
-      name: "Imran Digital",
-      avatar: "https://i.pravatar.cc/100?img=11",
-      company: "Imran Digital Ltd.",
-      about:
-        "We are a digital agency working with innovative startups and entrepreneurs globally.",
-    },
+const dummyJobs = Array.from({ length: 20 }).map((_, i) => ({
+  id: i + 1,
+  title: `Job Title ${i + 1}`,
+  category: ["Web Development", "Video & Animation", "Graphic Design", "Content Writing"][i % 4],
+  budget: `$${100 + i * 25}`,
+  thumbnail: `https://source.unsplash.com/random/600x400?sig=${i + 1}`,
+  posted: `${2 + i} hours ago`,
+  description: `This is a dummy description for job post #${i + 1}. It contains key points and needs for a freelancer to complete a task effectively.`,
+  buyer: {
+    name: `Buyer ${i + 1}`,
+    avatar: `https://i.pravatar.cc/100?img=${i + 10}`,
+    company: `Company ${i + 1}`,
+    about: `This buyer is actively hiring talented freelancers.`,
   },
-  {
-    id: 2,
-    title: "Animated Explainer Video",
-    category: "Video & Animation",
-    budget: "$300",
-    thumbnail: "https://source.unsplash.com/featured/?video",
-    posted: "5 hours ago",
-    description:
-      "Looking for a 60-90 sec explainer video for our SaaS product. Must include voiceover and background music.",
-    buyer: {
-      name: "Sadia Media",
-      avatar: "https://i.pravatar.cc/100?img=12",
-      company: "Sadia Media Agency",
-      about: "We help brands tell their stories visually.",
-    },
-  },
-];
+}));
 
 const BrowseJobs = () => {
   const [selectedJob, setSelectedJob] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const jobsPerPage = 6;
   const modalRef = useRef();
+
+  const indexOfLast = currentPage * jobsPerPage;
+  const indexOfFirst = indexOfLast - jobsPerPage;
+  const currentJobs = dummyJobs.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(dummyJobs.length / jobsPerPage);
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
-      if (
-        selectedJob &&
-        modalRef.current &&
-        !modalRef.current.contains(e.target)
-      ) {
+      if (selectedJob && modalRef.current && !modalRef.current.contains(e.target)) {
         setSelectedJob(null);
       }
     };
@@ -68,7 +53,7 @@ const BrowseJobs = () => {
       </motion.h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {jobs.map((job, i) => (
+        {currentJobs.map((job) => (
           <motion.div
             key={job.id}
             className="bg-white rounded-xl overflow-hidden shadow hover:shadow-lg transition cursor-pointer flex flex-col"
@@ -86,7 +71,7 @@ const BrowseJobs = () => {
               </div>
               <div className="flex items-center gap-4 text-sm text-gray-600 mt-2">
                 <span className="flex items-center gap-1">
-               <FaMoneyBillWave /> {job.budget}
+                  <FaMoneyBillWave /> {job.budget}
                 </span>
                 <span className="flex items-center gap-1">
                   <FaClock /> {job.posted}
@@ -100,6 +85,23 @@ const BrowseJobs = () => {
               </button>
             </div>
           </motion.div>
+        ))}
+      </div>
+
+      {/* Pagination */}
+      <div className="flex justify-center gap-2 pt-8">
+        {Array.from({ length: totalPages }, (_, i) => (
+          <button
+            key={i + 1}
+            onClick={() => setCurrentPage(i + 1)}
+            className={`px-4 py-2 rounded-full border text-sm font-semibold transition-all cursor-pointer ${
+              currentPage === i + 1
+                ? "bg-[#6fa1bd] text-white border-[#6fa1bd]"
+                : "bg-white text-gray-600 border-gray-300 hover:bg-gray-100"
+            }`}
+          >
+            {i + 1}
+          </button>
         ))}
       </div>
 
@@ -120,7 +122,6 @@ const BrowseJobs = () => {
               exit={{ y: 100 }}
               transition={{ duration: 0.3 }}
             >
-              {/* Close */}
               <button
                 className="absolute top-4 right-4 text-gray-500 hover:text-red-500"
                 onClick={() => setSelectedJob(null)}
@@ -128,19 +129,16 @@ const BrowseJobs = () => {
                 <FaTimes />
               </button>
 
-              {/* Job Details */}
               <h2 className="text-xl font-bold text-[#6fa1bd] mb-2">
                 {selectedJob.title}
               </h2>
               <p className="text-sm text-gray-600 mb-2">
-                {selectedJob.category} · {selectedJob.budt} ·{" "}
-                {selectedJob.posted}
+                {selectedJob.category} · {selectedJob.budget} · {selectedJob.posted}
               </p>
               <p className="text-gray-700 text-sm mb-4">
                 {selectedJob.description}
               </p>
 
-              {/* Buyer Info */}
               <div className="bg-gray-50 p-4 rounded-lg flex gap-4 items-center mb-4">
                 <img
                   src={selectedJob.buyer.avatar}

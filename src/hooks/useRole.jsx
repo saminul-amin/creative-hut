@@ -6,7 +6,7 @@ export default function useRole() {
   const { user } = useAuth();
 
   const { data: users = [], isLoading } = useQuery({
-    queryKey: ["tasks"],
+    queryKey: ["users"],
     queryFn: async () => {
       const res = await fetch(`https://creative-hut-server.vercel.app/users`);
       if (!res.ok) throw new Error("Failed to fetch users");
@@ -14,15 +14,18 @@ export default function useRole() {
     },
   });
 
-  if (isLoading) return <Loading />;
+  if (isLoading) {
+    return <Loading />;
+  }
 
-  const currentUser = users.filter((entry) => user?.email === entry.email)[0];
+  // console.log(users);
+  const currentUser = users?.filter((entry) => user?.email === entry.email)[0];
+  console.log(currentUser)
   const role = currentUser?.role;
   if (!currentUser || !role) {
     return <Loading />;
   }
-//   console.log(role);
-//   console.log(currentUser);
+  console.log(role);
 
   return role;
 }

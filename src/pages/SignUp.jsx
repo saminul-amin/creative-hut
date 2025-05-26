@@ -11,13 +11,11 @@ export default function SignUp() {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm();
   const { createUser, userGoogleSignIn } = useAuth();
   const navigate = useNavigate();
 
   const onSubmit = (data) => {
-    console.log(data);
     fetch("https://creative-hut-server.vercel.app/users", {
       method: "POST",
       headers: {
@@ -26,7 +24,7 @@ export default function SignUp() {
       body: JSON.stringify({
         name: data.name,
         email: data.email,
-        role: data.role,
+        role: selectedRole,
       }),
     })
       .then((res) => res.json())
@@ -55,15 +53,18 @@ export default function SignUp() {
   };
 
   const handleGoogleSignUp = () => {
-    userGoogleSignIn().then((res) => {
-      console.log(res.user);
-      navigate("/");
-    });
+    userGoogleSignIn()
+      .then((res) => {
+        console.log(res);
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleRoleSelect = (role) => {
     setSelectedRole(role);
-    setValue("role", role); // ✅ set for react-hook-form
   };
 
   return (
@@ -143,10 +144,7 @@ export default function SignUp() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
           >
-            <input
-              type="hidden"
-              {...register("role", { required: "Role is required" })}
-            />
+            <input type="hidden" {...register("role")} />
 
             <button
               type="button"

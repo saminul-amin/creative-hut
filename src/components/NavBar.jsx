@@ -27,6 +27,7 @@ const Navbar = () => {
           { name: "Sign Up", href: "/sign-up" },
         ]),
   ];
+  // console.log(role);
 
   const handleSignOut = () => {
     userLogOut().then(() => console.log("Logged Out"));

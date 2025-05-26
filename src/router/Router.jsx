@@ -24,6 +24,7 @@ import AdminDashboard from "../pages/admin/AdminDashboard";
 import Users from "../pages/admin/Users";
 import AllProjects from "../pages/admin/AllProjects";
 import PayoutRequests from "../pages/admin/PayoutRequests";
+import NewGig from "../pages/freelancer/NewGig";
 
 const router = createBrowserRouter([
   {
@@ -98,6 +99,10 @@ const router = createBrowserRouter([
       {
         path: "my-gigs",
         element: <MyGigs />,
+      },
+      {
+        path: "new-gig",
+        element: <NewGig />,
       },
       {
         path: "my-skills",

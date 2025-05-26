@@ -27,7 +27,7 @@ export default function AuthProvider({ children }) {
 
   const userGoogleSignIn = () => {
     setLoading(true);
-    signInWithPopup(auth, googleProvider);
+    return signInWithPopup(auth, googleProvider);
   };
 
   const userSignIn = (email, password) => {

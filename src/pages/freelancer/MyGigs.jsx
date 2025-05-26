@@ -1,241 +1,209 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { FaEdit, FaTrash, FaEye, FaPlus } from "react-icons/fa";
+// ✅ MyGigs.jsx — Card View + Pagination + Edit Modal + Route-based Gig Creation
 
-const sampleGigs = [
-  {
-    id: 1,
-    title: "Build a responsive portfolio site",
-    category: "Web Development",
-    status: "Active",
-    price: 150,
-  },
-  {
-    id: 2,
-    title: "Design a custom logo",
-    category: "Graphic Design",
-    status: "Pending",
-    price: 80,
-  },
-];
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { FaEdit, FaTrash, FaPlus, FaTimes } from "react-icons/fa";
+
+const sampleGigs = Array.from({ length: 12 }).map((_, i) => ({
+  id: i + 1,
+  title: `Gig Title ${i + 1}`,
+  category: [
+    "Web Development",
+    "Graphic Design",
+    "Marketing",
+    "Content Writing",
+  ][i % 4],
+  status: i % 3 === 0 ? "Active" : i % 3 === 1 ? "Pending" : "Rejected",
+  price: 50 + i * 10,
+  thumbnail: `https://source.unsplash.com/random/300x200?sig=${i + 1}`,
+}));
 
 const MyGigs = () => {
   const [gigs, setGigs] = useState(sampleGigs);
-  const [showForm, setShowForm] = useState(false);
-  const [thumbnail, setThumbnail] = useState(null);
+  const [selectedGig, setSelectedGig] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const gigsPerPage = 6;
+  const navigate = useNavigate();
 
-  const handleGigSubmit = (e) => {
+  const handleDelete = (id) => {
+    setGigs((prev) => prev.filter((gig) => gig.id !== id));
+  };
+
+  const handleEdit = (gig) => {
+    setSelectedGig(gig);
+  };
+
+  const handleUpdateGig = (e) => {
     e.preventDefault();
     const form = e.target;
-
-    const newGig = {
-      id: gigs.length + 1,
+    const updated = {
+      ...selectedGig,
       title: form.title.value,
       category: form.category.value,
-      status: "Pending",
       price: parseInt(form.price.value),
     };
-
-    setGigs([...gigs, newGig]);
-    form.reset();
-    setThumbnail(null);
-    setShowForm(false);
+    setGigs((prev) =>
+      prev.map((gig) => (gig.id === updated.id ? updated : gig))
+    );
+    setSelectedGig(null);
   };
 
-  const handleThumbnailChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setThumbnail(URL.createObjectURL(file));
-    }
-  };
+  // Pagination logic
+  const indexOfLast = currentPage * gigsPerPage;
+  const indexOfFirst = indexOfLast - gigsPerPage;
+  const currentGigs = gigs.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(gigs.length / gigsPerPage);
 
   return (
     <motion.div
-      className="max-w-5xl mx-auto mt-10 space-y-8"
+      className="max-w-6xl mx-auto mt-10 space-y-8"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center px-2">
         <h2 className="text-2xl font-bold text-[#6fa1bd]">My Gigs</h2>
         <button
-          onClick={() => setShowForm(!showForm)}
+          onClick={() => navigate("/freelancer/new-gig")}
           className="bg-[#6fa1bd] hover:bg-[#5a8aa3] text-white font-semibold px-4 py-2 rounded flex items-center gap-2 text-sm cursor-pointer transition-all"
         >
-          <FaPlus /> {showForm ? "Cancel" : "Add New Gig"}
+          <FaPlus /> Add New Gig
         </button>
       </div>
 
-      {/* Gig List */}
-      <div className="bg-white p-6 rounded-xl shadow">
-        <h3 className="text-lg font-semibold mb-4 text-[#6fa1bd]">Gig List</h3>
-        <table className="w-full text-sm text-left">
-          <thead className="bg-gray-100 text-gray-600 uppercase">
-            <tr>
-              <th className="px-4 py-2">Title</th>
-              <th className="px-4 py-2">Category</th>
-              <th className="px-4 py-2">Status</th>
-              <th className="px-4 py-2">Price ($)</th>
-              <th className="px-4 py-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y">
-            {gigs.map((gig) => (
-              <tr key={gig.id} className="hover:bg-blue-50 transition">
-                <td className="px-4 py-2">{gig.title}</td>
-                <td className="px-4 py-2">{gig.category}</td>
-                <td className="px-4 py-2">
-                  <span
-                    className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                      gig.status === "Active"
-                        ? "bg-green-100 text-green-700"
-                        : "bg-yellow-100 text-yellow-700"
-                    }`}
-                  >
-                    {gig.status}
-                  </span>
-                </td>
-                <td className="px-4 py-2">${gig.price}</td>
-                <td className="px-4 py-2 flex gap-2">
-                  <button className="text-[#6fa1bd] hover:text-[#6fa1bd]">
-                    <FaEye />
-                  </button>
-                  <button className="text-yellow-600 hover:text-yellow-700">
-                    <FaEdit />
-                  </button>
-                  <button className="text-red-600 hover:text-red-700">
-                    <FaTrash />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-2">
+        {currentGigs.map((gig) => (
+          <motion.div
+            key={gig.id}
+            className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all"
+            whileHover={{ scale: 1.02 }}
+          >
+            <img
+              src={
+                gig.thumbnail ||
+                "https://via.placeholder.com/300x200.png?text=Gig+Image"
+              }
+              alt={gig.title}
+              className="w-full h-40 object-cover"
+            />
+            <div className="p-4 space-y-2">
+              <h3 className="font-bold text-[#6fa1bd]">{gig.title}</h3>
+              <p className="text-sm text-gray-600">{gig.category}</p>
+              <p className="text-sm font-medium">${gig.price}</p>
+              <span
+                className={`inline-block px-2 py-1 rounded-full text-xs font-semibold ${
+                  gig.status === "Active"
+                    ? "bg-green-100 text-green-700"
+                    : gig.status === "Pending"
+                    ? "bg-yellow-100 text-yellow-700"
+                    : "bg-red-100 text-red-700"
+                }`}
+              >
+                {gig.status}
+              </span>
+              <div className="flex justify-end gap-3 mt-3 text-sm">
+                <button
+                  onClick={() => handleEdit(gig)}
+                  className="text-yellow-600 hover:text-yellow-800  flex gap-1.5 cursor-pointer bg-gray-100 hover:bg-gray-300 px-4 py-2 rounded-full items-center transition-all"
+                  title="Edit"
+                >
+                  <FaEdit /> Edit
+                </button>
+                <button
+                  onClick={() => handleDelete(gig.id)}
+                  className="text-red-600 hover:text-red-800 flex gap-1.5 cursor-pointer bg-gray-100 hover:bg-gray-300 px-4 py-2 rounded-full items-center transition-all"
+                  title="Delete"
+                >
+                  <FaTrash /> Delete
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        ))}
       </div>
 
-      {/* New Gig Form */}
-      {showForm && (
-        <motion.div
-          className="bg-white p-6 rounded-xl shadow"
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.4 }}
-        >
-          <h3 className="text-lg font-semibold text-[#6fa1bd] mb-4">
-            Create New Gig
-          </h3>
-          <form onSubmit={handleGigSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Title
-              </label>
-              <input
-                name="title"
-                required
-                className="w-full p-2 border rounded"
-                placeholder="e.g., UI Design for SaaS"
-              />
-            </div>
+      {/* Pagination */}
+      <div className="flex justify-center gap-2 mt-6">
+        {Array.from({ length: totalPages }, (_, i) => (
+          <button
+            key={i + 1}
+            onClick={() => setCurrentPage(i + 1)}
+            className={`px-3 py-1 rounded-full text-sm font-medium border cursor-pointer ${
+              i + 1 === currentPage
+                ? "bg-[#6fa1bd] text-white border-[#6fa1bd]"
+                : "bg-white text-gray-700 border-gray-300"
+            }`}
+          >
+            {i + 1}
+          </button>
+        ))}
+      </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Category
-              </label>
-              <select
-                name="category"
-                required
-                className="w-full p-2 border rounded"
-              >
-                <option value="">-- Select --</option>
-                <option value="Web Development">Web Development</option>
-                <option value="Graphic Design">Graphic Design</option>
-                <option value="Marketing">Marketing</option>
-                <option value="Content Writing">Content Writing</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Description
-              </label>
-              <textarea
-                name="description"
-                rows="4"
-                required
-                className="w-full p-2 border rounded"
-              ></textarea>
-            </div>
-
-            {/* Pricing */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Base Price ($)
-                </label>
+      {/* Edit Modal */}
+      <AnimatePresence>
+        {selectedGig && (
+          <motion.div
+            className="fixed inset-0 bg-black/40 z-50 flex justify-center items-center px-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="bg-white w-full max-w-md p-6 rounded-xl shadow relative"
+              initial={{ y: 100 }}
+              animate={{ y: 0 }}
+              exit={{ y: 100 }}
+            >
+              <h3 className="text-lg font-semibold mb-4 text-[#6fa1bd]">
+                Edit Gig
+              </h3>
+              <form onSubmit={handleUpdateGig} className="space-y-4">
+                <input
+                  name="title"
+                  defaultValue={selectedGig.title}
+                  className="w-full p-2 border rounded"
+                  required
+                />
+                <input
+                  name="category"
+                  defaultValue={selectedGig.category}
+                  className="w-full p-2 border rounded"
+                  required
+                />
                 <input
                   name="price"
                   type="number"
-                  required
+                  defaultValue={selectedGig.price}
                   className="w-full p-2 border rounded"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Revisions
-                </label>
-                <input
-                  name="revisions"
-                  type="number"
                   required
-                  className="w-full p-2 border rounded"
                 />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Delivery Time (days)
-                </label>
-                <input
-                  name="delivery"
-                  type="number"
-                  required
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-            </div>
-
-            {/* Upload */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Thumbnail Image
-              </label>
-              <input
-                name="thumbnail"
-                type="file"
-                accept="image/*"
-                onChange={handleThumbnailChange}
-              />
-              {thumbnail && (
-                <img
-                  src={thumbnail}
-                  alt="Preview"
-                  className="mt-3 w-40 h-28 object-cover rounded border"
-                />
-              )}
-            </div>
-
-            {/* Submit */}
-            <div>
+                <div className="flex justify-end gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedGig(null)}
+                    className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 rounded bg-[#6fa1bd] text-white hover:bg-[#5a8aa3]"
+                  >
+                    Update
+                  </button>
+                </div>
+              </form>
               <button
-                type="submit"
-                className="bg-[#6fa1bd] hover:bg-[#5a8aa3] text-white px-5 py-2 rounded transition-all cursor-pointer"
+                className="absolute top-3 right-4 text-gray-400 hover:text-red-500 text-xl"
+                onClick={() => setSelectedGig(null)}
               >
-                Submit Gig
+                <FaTimes />
               </button>
-            </div>
-          </form>
-        </motion.div>
-      )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };
