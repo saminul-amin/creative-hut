@@ -5,9 +5,12 @@ import {
   FaDollarSign,
   FaPlus,
   FaUsers,
+  FaStar,
 } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const BuyerDashboard = () => {
+  const navigate = useNavigate();
   const stats = {
     spending: 12500,
     projects: 8,
@@ -26,8 +29,56 @@ const BuyerDashboard = () => {
   ];
 
   const topFreelancers = [
-    { name: "Sadia Afreen", skill: "SEO Specialist" },
-    { name: "Mehedi Hasan", skill: "Frontend Developer" },
+    {
+      name: "Sadia Afreen",
+      skill: "SEO Specialist",
+      rating: 4.9,
+      reviews: 128,
+      gigs: [{ title: "Complete SEO Audit", price: 150, delivery: "3 days" }],
+      avatar: "https://randomuser.me/api/portraits/women/32.jpg",
+    },
+    {
+      name: "Mehedi Hasan",
+      skill: "Frontend Developer",
+      rating: 4.8,
+      reviews: 95,
+      gigs: [{ title: "React Landing Page", price: 250, delivery: "4 days" }],
+      avatar: "https://randomuser.me/api/portraits/men/45.jpg",
+    },
+    {
+      name: "Tasnim Ahmed",
+      skill: "Graphic Designer",
+      rating: 5.0,
+      reviews: 210,
+      gigs: [{ title: "Logo Design", price: 100, delivery: "2 days" }],
+      avatar: "https://randomuser.me/api/portraits/women/65.jpg",
+    },
+    {
+      name: "Arif Khan",
+      skill: "Content Writer",
+      rating: 4.7,
+      reviews: 87,
+      gigs: [{ title: "Blog Articles", price: 50, delivery: "2 days" }],
+      avatar: "https://randomuser.me/api/portraits/men/22.jpg",
+    },
+    {
+      name: "Farhana Akter",
+      skill: "Digital Marketer",
+      rating: 4.9,
+      reviews: 156,
+      gigs: [{ title: "Social Media Setup", price: 180, delivery: "4 days" }],
+      avatar: "https://randomuser.me/api/portraits/women/43.jpg",
+    },
+    {
+      name: "Rayhan Chowdhury",
+      skill: "Backend Developer",
+      rating: 4.8,
+      reviews: 112,
+      gigs: [
+        { title: "REST API with Node.js", price: 200, delivery: "5 days" },
+      ],
+      avatar: "https://randomuser.me/api/portraits/men/33.jpg",
+    },
   ];
 
   return (
@@ -102,22 +153,46 @@ const BuyerDashboard = () => {
 
       {/* Shortlisted Freelancers */}
       <motion.div
-        className="bg-white p-6 rounded-xl shadow"
+        className="bg-white p-6 rounded-xl shadow mt-10"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
+        transition={{ delay: 0.2 }}
       >
-        <h3 className="text-lg font-bold mb-4 text-[#6fa1bd]">
+        <h3 className="text-lg font-bold mb-6 text-[#6fa1bd]">
           Top Freelancers
         </h3>
-        <ul className="space-y-2 text-sm text-gray-700">
-          {topFreelancers.map((freelancer, i) => (
-            <li key={i} className="flex justify-between border-b pb-2">
-              <span>{freelancer.name}</span>
-              <span className="text-gray-500">{freelancer.skill}</span>
-            </li>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+          {topFreelancers.map((freelancer, index) => (
+            <div
+              key={index}
+              className="bg-gray-50 rounded-lg shadow p-4 flex flex-col items-center text-center"
+            >
+              <img
+                src={freelancer.avatar}
+                alt={freelancer.name}
+                className="w-20 h-20 rounded-full object-cover border mb-3"
+              />
+              <h4 className="font-semibold text-gray-800">{freelancer.name}</h4>
+              <p className="text-sm text-gray-500">{freelancer.skill}</p>
+
+              <div className="flex items-center justify-center gap-1 text-yellow-500 text-xs mt-1">
+                <FaStar />
+                <span>{freelancer.rating}</span>
+                <span className="text-gray-400">({freelancer.reviews})</span>
+              </div>
+
+              <div className="mt-4 bg-white p-3 rounded text-sm w-full text-center">
+                <h5 className="font-medium text-[#6fa1bd]">
+                  {freelancer.gigs[0].title}
+                </h5>
+                <p className="text-gray-700 mt-1">
+                  ${freelancer.gigs[0].price} · {freelancer.gigs[0].delivery}
+                </p>
+              </div>
+            </div>
           ))}
-        </ul>
+        </div>
       </motion.div>
 
       {/* Quick Actions */}
@@ -133,10 +208,14 @@ const BuyerDashboard = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           transition={{ duration: 0.2 }}
+          onClick={() => navigate("/buyer/post-job")}
         >
           <FaPlus /> Post a New Job
         </motion.button>
-        <button className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-3 rounded-lg flex justify-center items-center gap-2 transition-all cursor-pointer">
+        <button
+          onClick={() => navigate("/buyer/find-freelancer")}
+          className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-3 rounded-lg flex justify-center items-center gap-2 transition-all cursor-pointer"
+        >
           <FaUsers /> View Applicants
         </button>
       </motion.div>

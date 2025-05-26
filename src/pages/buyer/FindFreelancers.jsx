@@ -1,49 +1,45 @@
+// ✅ FindFreelancers.jsx — Now with More Dummy Data + Pagination
+
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaSearch, FaTimes } from "react-icons/fa";
 
-const gigs = [
-  {
-    id: 1,
-    freelancer: "Mehedi Hasan",
-    gigImage: "https://source.unsplash.com/featured/?webdesign",
-    role: "Responsive Landing Page",
-    skills: ["React", "Tailwind", "HTML"],
-    price: 120,
-    description:
-      "I'll design and build a mobile-friendly landing page with responsive layout and modern animations.",
-  },
-  {
-    id: 2,
-    freelancer: "Nusrat Jahan",
-    gigImage: "https://source.unsplash.com/featured/?seo",
-    role: "SEO Optimization",
-    skills: ["SEO", "On-page", "Google Tools"],
-    price: 80,
-    description:
-      "Improve your search visibility and increase organic traffic with my expert SEO services.",
-  },
-  {
-    id: 3,
-    freelancer: "Tanvir Islam",
-    gigImage: "https://source.unsplash.com/featured/?writing",
-    role: "Technical Blog Writing",
-    skills: ["Content Writing", "Research", "Tech"],
-    price: 50,
-    description:
-      "I write tech-focused, SEO-friendly articles and blogs that drive traffic and engagement.",
-  },
-];
+const gigs = Array.from({ length: 30 }).map((_, i) => ({
+  id: i + 1,
+  freelancer: `Freelancer ${i + 1}`,
+  gigImage: `https://source.unsplash.com/featured/?freelancer,${i + 1}`,
+  role: [
+    "Landing Page Development",
+    "SEO Audit & Optimization",
+    "Blog Writing",
+    "Logo Design",
+  ][i % 4],
+  skills: [
+    ["React", "Tailwind", "JavaScript"],
+    ["SEO", "Google Analytics", "Yoast"],
+    ["Writing", "Technical", "Marketing"],
+    ["Illustrator", "Branding", "Photoshop"],
+  ][i % 4],
+  price: 50 + (i % 5) * 20,
+  description: `Professional gig offering quality service #${i + 1}. High-performing and timely delivery guaranteed.`,
+}));
 
 const FindFreelancer = () => {
   const [query, setQuery] = useState("");
   const [selectedGig, setSelectedGig] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const gigsPerPage = 6;
 
   const filteredGigs = gigs.filter(
     (gig) =>
       gig.skills.join(" ").toLowerCase().includes(query.toLowerCase()) ||
       gig.role.toLowerCase().includes(query.toLowerCase())
   );
+
+  const indexOfLast = currentPage * gigsPerPage;
+  const indexOfFirst = indexOfLast - gigsPerPage;
+  const currentGigs = filteredGigs.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(filteredGigs.length / gigsPerPage);
 
   return (
     <section className="py-12 px-4 max-w-7xl mx-auto">
@@ -57,7 +53,7 @@ const FindFreelancer = () => {
       </motion.h1>
 
       {/* Search bar */}
-      <div className=" max-w-xl mx-auto mb-10 relative">
+      <div className="max-w-xl mx-auto mb-10 relative">
         <input
           type="text"
           placeholder="Search by gig title or skill..."
@@ -70,7 +66,7 @@ const FindFreelancer = () => {
 
       {/* Gig Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {filteredGigs.map((gig, i) => (
+        {currentGigs.map((gig, i) => (
           <motion.div
             key={gig.id}
             custom={i}
@@ -114,6 +110,23 @@ const FindFreelancer = () => {
         ))}
       </div>
 
+      {/* Pagination */}
+      <div className="flex justify-center gap-2 mt-10">
+        {Array.from({ length: totalPages }, (_, i) => (
+          <button
+            key={i + 1}
+            onClick={() => setCurrentPage(i + 1)}
+            className={`px-4 py-2 rounded-full border text-sm font-semibold transition-all cursor-pointer ${
+              currentPage === i + 1
+                ? "bg-[#6fa1bd] text-white border-[#6fa1bd]"
+                : "bg-white text-gray-600 border-gray-300 hover:bg-gray-100"
+            }`}
+          >
+            {i + 1}
+          </button>
+        ))}
+      </div>
+
       {/* Modal */}
       <AnimatePresence>
         {selectedGig && (
@@ -130,7 +143,6 @@ const FindFreelancer = () => {
               exit={{ y: 100 }}
               transition={{ duration: 0.3 }}
             >
-              {/* Close */}
               <button
                 onClick={() => setSelectedGig(null)}
                 className="absolute top-4 right-4 text-gray-500 hover:text-red-500 cursor-pointer"
