@@ -1,28 +1,169 @@
-// ✅ FindFreelancers.jsx — Now with More Dummy Data + Pagination
-
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaSearch, FaTimes } from "react-icons/fa";
 
-const gigs = Array.from({ length: 30 }).map((_, i) => ({
-  id: i + 1,
-  freelancer: `Freelancer ${i + 1}`,
-  gigImage: `https://source.unsplash.com/featured/?freelancer,${i + 1}`,
-  role: [
-    "Landing Page Development",
-    "SEO Audit & Optimization",
-    "Blog Writing",
-    "Logo Design",
-  ][i % 4],
-  skills: [
-    ["React", "Tailwind", "JavaScript"],
-    ["SEO", "Google Analytics", "Yoast"],
-    ["Writing", "Technical", "Marketing"],
-    ["Illustrator", "Branding", "Photoshop"],
-  ][i % 4],
-  price: 50 + (i % 5) * 20,
-  description: `Professional gig offering quality service #${i + 1}. High-performing and timely delivery guaranteed.`,
-}));
+const gigs = [
+  {
+    id: 1,
+    freelancer: "Sarah Johnson",
+    gigImage: "https://i.ibb.co/PG72ttyP/web-1.jpg",
+    role: "Landing Page Development",
+    skills: ["WordPress", "PHP", "Responsive Design"],
+    price: 80,
+    description:
+      "Professional web developer with 5+ years of experience creating high-converting landing pages. Specializes in React and modern CSS frameworks.",
+  },
+  {
+    id: 2,
+    freelancer: "Michael Chen",
+    gigImage: "https://i.ibb.co/Jww8hLH5/content-1.webp",
+    role: "Technical Content Writer",
+    skills: ["SEO", "Google Analytics", "Yoast", "Keyword Research"],
+    price: 120,
+    description:
+      "SEO expert who can analyze your website and provide actionable recommendations to improve search rankings and organic traffic.",
+  },
+  {
+    id: 3,
+    freelancer: "Emily Rodriguez",
+    gigImage: "https://i.ibb.co/YFY8xhgY/content-2.jpg",
+    role: "SEO Articles",
+    skills: ["Writing", "Technical", "Marketing", "Content Strategy"],
+    price: 65,
+    description:
+      "Experienced content writer specializing in tech and marketing blogs. Delivers engaging, well-researched articles on time.",
+  },
+  {
+    id: 4,
+    freelancer: "David Wilson",
+    gigImage: "https://i.ibb.co/sJ9qpX78/web-5.webp",
+    role: "Web Development",
+    skills: ["React", "Tailwind", "JS", "Node.js + Express.js"],
+    price: 90,
+    description:
+      "Creative graphic designer with a focus on logo creation and brand identity. Delivers unique designs that represent your business perfectly.",
+  },
+  {
+    id: 5,
+    freelancer: "Jessica Kim",
+    gigImage: "https://i.ibb.co/0RCDWnqc/graphic-5.webp",
+    role: "Graphics Design",
+    skills: ["Design", "UI/UX"],
+    price: 70,
+    description:
+      "Front-end developer specializing in creating beautiful, functional landing pages that convert visitors into customers.",
+  },
+  {
+    id: 6,
+    freelancer: "Robert Taylor",
+    gigImage: "https://i.ibb.co/VWMPr7VC/content-3.webp",
+    role: "SEO Audit & Optimization",
+    skills: ["SEO", "Content Optimization", "Backlinking", "Technical SEO"],
+    price: 150,
+    description:
+      "Full-service SEO consultant who can help your website rank higher and attract more qualified traffic.",
+  },
+  {
+    id: 7,
+    freelancer: "Olivia Martin",
+    gigImage: "https://i.ibb.co/ycBV4dqC/graphic-4.webp",
+    role: "Poster Design",
+    skills: ["Creative Writing", "Editing", "Proofreading", "Blogging"],
+    price: 55,
+    description:
+      "Versatile writer who can create compelling blog posts on various topics, from lifestyle to business.",
+  },
+  {
+    id: 8,
+    freelancer: "Daniel Park",
+    gigImage: "https://i.ibb.co/2Yfs6Xf7/web-4.webp",
+    role: "WordPress Development",
+    skills: ["WordPress", "PHP", "Custom Plugins", "Custom Themes"],
+    price: 110,
+    description:
+      "Professional logo designer who creates memorable brand marks that stand out in competitive markets.",
+  },
+  {
+    id: 9,
+    freelancer: "Sophia Lee",
+    gigImage: "https://i.ibb.co/8nMRT27v/web-3.webp",
+    role: "Full Stack Development",
+    skills: [
+      "Web Design",
+      "Conversion Optimization",
+      "A/B Testing",
+      "MERN Stack",
+    ],
+    price: 95,
+    description:
+      "Conversion-focused landing page specialist who combines design and psychology to create high-performing pages.",
+  },
+  {
+    id: 10,
+    freelancer: "James Wilson",
+    gigImage: "https://i.ibb.co/SXCQRZKZ/graphic-3.jpg",
+    role: "Design",
+    skills: ["Creative Design", "Design"],
+    price: 130,
+    description:
+      "Data-driven SEO consultant who uses analytics to identify growth opportunities for your website.",
+  },
+  {
+    id: 11,
+    freelancer: "Emma Davis",
+    gigImage: "https://i.ibb.co/Zz138QXH/graphic-2.webp",
+    role: "Designing",
+    skills: [
+      "Research",
+      "Long-form Content",
+      "Design Sense",
+      "Critical Explanation",
+    ],
+    price: 75,
+    description:
+      "Skilled writer who produces in-depth, well-researched blog articles that establish thought leadership.",
+  },
+  {
+    id: 12,
+    freelancer: "Lucas Brown",
+    gigImage: "https://i.ibb.co.com/JjCdQ8mG/content-4.webp",
+    role: "Blog Writing",
+    skills: ["Health & Wellness", "SEO Content", "Ghostwriting", "Editing"],
+    price: 85,
+    description:
+      "Minimalist logo designer who believes in simplicity and effectiveness in brand representation.",
+  },
+  {
+    id: 13,
+    freelancer: "Alex Turner",
+    gigImage: "https://i.ibb.co/96GcHgh/web-2.webp",
+    role: "Landing Page Development",
+    skills: ["Next.js", "TypeScript", "Framer Motion", "UI/UX"],
+    price: 110,
+    description:
+      "Front-end developer specializing in interactive landing pages with smooth animations and high performance.",
+  },
+  {
+    id: 14,
+    freelancer: "Priya Patel",
+    gigImage: "https://i.ibb.co/gLB0Cc4k/graphic-1.webp",
+    role: "Poster Design",
+    skills: ["Creative Writing", "Editing", "Proofreading", "Blogging"],
+    price: 60,
+    description:
+      "Award-winning health writer crafting engaging, research-backed articles for medical and wellness brands.",
+  },
+  {
+    id: 15,
+    freelancer: "Carlos Mendez",
+    gigImage: "https://i.ibb.co.com/PsnP1cmt/content-5.webp",
+    role: "SEO Optimized Blog Posts",
+    skills: ["Minimalist blogs", "Brand Identity", "Typography", "Cool Posts"],
+    price: 95,
+    description:
+      "Logo designer with a minimalist approach, creating timeless brand marks that communicate clearly.",
+  },
+];
 
 const FindFreelancer = () => {
   const [query, setQuery] = useState("");

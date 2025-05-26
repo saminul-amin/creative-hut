@@ -5,19 +5,104 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaEdit, FaTrash, FaPlus, FaTimes } from "react-icons/fa";
 
-const sampleGigs = Array.from({ length: 12 }).map((_, i) => ({
-  id: i + 1,
-  title: `Gig Title ${i + 1}`,
-  category: [
-    "Web Development",
-    "Graphic Design",
-    "Marketing",
-    "Content Writing",
-  ][i % 4],
-  status: i % 3 === 0 ? "Active" : i % 3 === 1 ? "Pending" : "Rejected",
-  price: 50 + i * 10,
-  thumbnail: `https://source.unsplash.com/random/300x200?sig=${i + 1}`,
-}));
+const sampleGigs = [
+  {
+    id: 1,
+    title: "Website Redesign",
+    category: "Web Development",
+    status: "Active",
+    price: 500,
+    thumbnail: "https://i.ibb.co/PG72ttyP/web-1.jpg",
+  },
+  {
+    id: 2,
+    title: "Logo Creation",
+    category: "Graphic Design",
+    status: "Pending",
+    price: 150,
+    thumbnail: "https://i.ibb.co/Jww8hLH5/content-1.webp",
+  },
+  {
+    id: 3,
+    title: "Social Media Campaign",
+    category: "Marketing",
+    status: "Rejected",
+    price: 300,
+    thumbnail: "https://i.ibb.co/YFY8xhgY/content-2.jpg",
+  },
+  {
+    id: 4,
+    title: "Blog Articles",
+    category: "Content Writing",
+    status: "Active",
+    price: 100,
+    thumbnail: "https://i.ibb.co/sJ9qpX78/web-5.webp",
+  },
+  {
+    id: 5,
+    title: "E-commerce Site",
+    category: "Web Development",
+    status: "Pending",
+    price: 800,
+    thumbnail: "https://i.ibb.co/0RCDWnqc/graphic-5.webp",
+  },
+  {
+    id: 6,
+    title: "Business Cards",
+    category: "Graphic Design",
+    status: "Active",
+    price: 75,
+    thumbnail: "https://i.ibb.co/VWMPr7VC/content-3.webp",
+  },
+  {
+    id: 7,
+    title: "SEO Optimization",
+    category: "Marketing",
+    status: "Active",
+    price: 250,
+    thumbnail: "https://i.ibb.co/ycBV4dqC/graphic-4.webp",
+  },
+  {
+    id: 8,
+    title: "Product Descriptions",
+    category: "Content Writing",
+    status: "Pending",
+    price: 50,
+    thumbnail: "https://i.ibb.co/2Yfs6Xf7/web-4.webp",
+  },
+  {
+    id: 9,
+    title: "Mobile App UI",
+    category: "Web Development",
+    status: "Rejected",
+    price: 600,
+    thumbnail: "https://i.ibb.co/8nMRT27v/web-3.webp",
+  },
+  {
+    id: 10,
+    title: "Brochure Design",
+    category: "Graphic Design",
+    status: "Active",
+    price: 120,
+    thumbnail: "https://i.ibb.co/SXCQRZKZ/graphic-3.jpg",
+  },
+  {
+    id: 11,
+    title: "Email Marketing",
+    category: "Marketing",
+    status: "Pending",
+    price: 200,
+    thumbnail: "https://i.ibb.co/Zz138QXH/graphic-2.webp",
+  },
+  {
+    id: 12,
+    title: "Technical Writing",
+    category: "Content Writing",
+    status: "Active",
+    price: 150,
+    thumbnail: "https://i.ibb.co/96GcHgh/web-2.webp",
+  },
+];
 
 const MyGigs = () => {
   const [gigs, setGigs] = useState(sampleGigs);
