@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import axios from "axios";
 
 const NewGig = () => {
   const {
@@ -13,12 +14,37 @@ const NewGig = () => {
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
   const navigate = useNavigate();
 
-  const onSubmit = (data) => {
-    console.log("New Gig Submitted:", data);
-    // TODO: POST to backend
-    reset();
-    setThumbnailPreview(null);
-    navigate("/dashboard/my-gigs");
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+    formData.append("title", data.title);
+    formData.append("description", data.description);
+    formData.append("category", data.category); // optional backend param
+    formData.append("price", data.price);
+    formData.append("revisions", data.revisions);
+    formData.append("delivery", data.delivery);
+    formData.append("image", data.thumbnail[0]); // file input
+    // formData.append("user_id", 1); // TEMP: replace with logged-in freelancer's ID
+    const pgUserId = localStorage.getItem("pg_user_id");
+    formData.append("user_id", pgUserId);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/gigs/",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log("Gig submitted successfully:", response.data);
+      reset();
+      setThumbnailPreview(null);
+      navigate("/freelancer/my-gigs");
+    } catch (error) {
+      console.error("Error submitting gig:", error);
+    }
   };
 
   const handleThumbnailChange = (e) => {
@@ -130,7 +156,7 @@ const NewGig = () => {
 
         <button
           type="submit"
-          className="w-full bg-[#6fa1bd] hover:bg-[#5a8aa3] text-white font-semibold py-3 rounded transition"
+          className="w-full bg-[#6fa1bd] hover:bg-[#5a8aa3] text-white font-semibold py-3 rounded transition cursor-pointer"
         >
           Submit Gig
         </button>

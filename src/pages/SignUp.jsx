@@ -16,6 +16,7 @@ export default function SignUp() {
   const navigate = useNavigate();
 
   const onSubmit = (data) => {
+    // Save to MongoDB
     fetch("https://creative-hut-server.vercel.app/users", {
       method: "POST",
       headers: {
@@ -29,26 +30,60 @@ export default function SignUp() {
     })
       .then((res) => res.json())
       .then((mongoData) => {
-        console.log("Success: ", mongoData);
-        if (mongoData.insertId !== null) {
-          createUser(data.email, data.password).then((res) => {
-            console.log(res.user);
+        console.log("Saved to MongoDB:", mongoData);
+
+        // ✅ Save to PostgreSQL (FastAPI)
+        fetch("http://localhost:8000/users/", {
+          method: "POST",
+          body: new URLSearchParams({
+            name: data.name,
+            email: data.email,
+            role: selectedRole,
+            id: mongoData._id,
+          }),
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        })
+          .then((res) => res.json())
+          .then((pgData) => {
+            console.log("Saved to PostgreSQL:", pgData);
+            fetch(`http://localhost:8000/users/by-email/${data.email}`)
+              .then((res) => res.json())
+              .then((pgUser) => {
+                console.log("PostgreSQL user:", pgUser);
+                localStorage.setItem("pg_user_id", pgUser.id); // ✅ save it
+              });
+
+            // ✅ Firebase user creation
+            if (mongoData.insertId !== null) {
+              createUser(data.email, data.password).then((res) => {
+                console.log(res.user);
+                Swal.fire({
+                  position: "center",
+                  icon: "success",
+                  title: "Account Created Successfully",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                navigate("/");
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: mongoData.message,
+              });
+            }
+          })
+          .catch((err) => {
+            console.error("FastAPI error:", err);
             Swal.fire({
-              position: "center",
-              icon: "success",
-              title: "Account Created Successfully",
-              showConfirmButton: false,
-              timer: 1500,
+              icon: "error",
+              title: "FastAPI Error",
+              text: "User saved to MongoDB, but not to PostgreSQL.",
             });
-            navigate("/");
           });
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: mongoData.message,
-          });
-        }
       });
   };
 
