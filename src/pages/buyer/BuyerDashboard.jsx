@@ -1,4 +1,6 @@
+import axios from "axios";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import {
   FaBriefcase,
   FaClock,
@@ -9,77 +11,104 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
+// const topFreelancers = [
+//     {
+//       name: "Sadia Afreen",
+//       skill: "SEO Specialist",
+//       rating: 4.9,
+//       reviews: 128,
+//       gigs: [{ title: "Complete SEO Audit", price: 150, delivery: "3 days" }],
+//       avatar: "https://randomuser.me/api/portraits/women/32.jpg",
+//     },
+//     {
+//       name: "Mehedi Hasan",
+//       skill: "Frontend Developer",
+//       rating: 4.8,
+//       reviews: 95,
+//       gigs: [{ title: "React Landing Page", price: 250, delivery: "4 days" }],
+//       avatar: "https://randomuser.me/api/portraits/men/45.jpg",
+//     },
+//     {
+//       name: "Tasnim Ahmed",
+//       skill: "Graphic Designer",
+//       rating: 5.0,
+//       reviews: 210,
+//       gigs: [{ title: "Logo Design", price: 100, delivery: "2 days" }],
+//       avatar: "https://randomuser.me/api/portraits/women/65.jpg",
+//     },
+//     {
+//       name: "Arif Khan",
+//       skill: "Content Writer",
+//       rating: 4.7,
+//       reviews: 87,
+//       gigs: [{ title: "Blog Articles", price: 50, delivery: "2 days" }],
+//       avatar: "https://randomuser.me/api/portraits/men/22.jpg",
+//     },
+//     {
+//       name: "Farhana Akter",
+//       skill: "Digital Marketer",
+//       rating: 4.9,
+//       reviews: 156,
+//       gigs: [{ title: "Social Media Setup", price: 180, delivery: "4 days" }],
+//       avatar: "https://randomuser.me/api/portraits/women/43.jpg",
+//     },
+//     {
+//       name: "Rayhan Chowdhury",
+//       skill: "Backend Developer",
+//       rating: 4.8,
+//       reviews: 112,
+//       gigs: [
+//         { title: "REST API with Node.js", price: 200, delivery: "5 days" },
+//       ],
+//       avatar: "https://randomuser.me/api/portraits/men/33.jpg",
+//     },
+//   ];
+
+const stats = {
+  spending: 12500,
+  projects: 8,
+  responseTime: "3h 20m",
+};
+
+const recentApplications = [
+  { name: "Nadia Rahman", job: "Landing Page Design", time: "2h ago" },
+  { name: "Sajid Hossain", job: "Logo & Brand Pack", time: "5h ago" },
+  { name: "Rafiul Hasan", job: "Mobile App UI", time: "1 day ago" },
+];
+
+const activeProjects = [
+  { title: "Company Portfolio Website", status: "In Progress" },
+  { title: "SEO Optimization Plan", status: "Submitted" },
+];
+
 const BuyerDashboard = () => {
   const navigate = useNavigate();
-  const stats = {
-    spending: 12500,
-    projects: 8,
-    responseTime: "3h 20m",
-  };
+  const [topFreelancers, setTopFreelancers] = useState([]);
 
-  const recentApplications = [
-    { name: "Nadia Rahman", job: "Landing Page Design", time: "2h ago" },
-    { name: "Sajid Hossain", job: "Logo & Brand Pack", time: "5h ago" },
-    { name: "Rafiul Hasan", job: "Mobile App UI", time: "1 day ago" },
-  ];
+  useEffect(() => {
+    const fetchFreelancers = async () => {
+      try {
+        const res = await axios.get("http://localhost:8000/top-freelancers/");
+        const enriched = res.data.map((user) => ({
+          name: user.name,
+          skill: user.skill,
+          rating: user.rating,
+          reviews: user.reviews,
+          gigs: user.gigs,
+          avatar: user.profile_pic
+            ? `http://localhost:8000/gigs/image/${user.profile_pic
+                .split("/")
+                .pop()}`
+            : "/pro-pic.webp",
+        }));
+        setTopFreelancers(enriched);
+      } catch (err) {
+        console.error("Error fetching top freelancers:", err);
+      }
+    };
 
-  const activeProjects = [
-    { title: "Company Portfolio Website", status: "In Progress" },
-    { title: "SEO Optimization Plan", status: "Submitted" },
-  ];
-
-  const topFreelancers = [
-    {
-      name: "Sadia Afreen",
-      skill: "SEO Specialist",
-      rating: 4.9,
-      reviews: 128,
-      gigs: [{ title: "Complete SEO Audit", price: 150, delivery: "3 days" }],
-      avatar: "https://randomuser.me/api/portraits/women/32.jpg",
-    },
-    {
-      name: "Mehedi Hasan",
-      skill: "Frontend Developer",
-      rating: 4.8,
-      reviews: 95,
-      gigs: [{ title: "React Landing Page", price: 250, delivery: "4 days" }],
-      avatar: "https://randomuser.me/api/portraits/men/45.jpg",
-    },
-    {
-      name: "Tasnim Ahmed",
-      skill: "Graphic Designer",
-      rating: 5.0,
-      reviews: 210,
-      gigs: [{ title: "Logo Design", price: 100, delivery: "2 days" }],
-      avatar: "https://randomuser.me/api/portraits/women/65.jpg",
-    },
-    {
-      name: "Arif Khan",
-      skill: "Content Writer",
-      rating: 4.7,
-      reviews: 87,
-      gigs: [{ title: "Blog Articles", price: 50, delivery: "2 days" }],
-      avatar: "https://randomuser.me/api/portraits/men/22.jpg",
-    },
-    {
-      name: "Farhana Akter",
-      skill: "Digital Marketer",
-      rating: 4.9,
-      reviews: 156,
-      gigs: [{ title: "Social Media Setup", price: 180, delivery: "4 days" }],
-      avatar: "https://randomuser.me/api/portraits/women/43.jpg",
-    },
-    {
-      name: "Rayhan Chowdhury",
-      skill: "Backend Developer",
-      rating: 4.8,
-      reviews: 112,
-      gigs: [
-        { title: "REST API with Node.js", price: 200, delivery: "5 days" },
-      ],
-      avatar: "https://randomuser.me/api/portraits/men/33.jpg",
-    },
-  ];
+    fetchFreelancers();
+  }, []);
 
   return (
     <section className="space-y-10">
@@ -184,10 +213,11 @@ const BuyerDashboard = () => {
 
               <div className="mt-4 bg-white p-3 rounded text-sm w-full text-center">
                 <h5 className="font-medium text-[#6fa1bd]">
-                  {freelancer.gigs[0].title}
+                  {freelancer.gigs[0]?.title || "No Gig"}
                 </h5>
                 <p className="text-gray-700 mt-1">
-                  ${freelancer.gigs[0].price} · {freelancer.gigs[0].delivery}
+                  ${freelancer.gigs[0]?.price || "--"} ·{" "}
+                  {freelancer.gigs[0]?.delivery || "--"} days
                 </p>
               </div>
             </div>

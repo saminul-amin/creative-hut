@@ -1,19 +1,32 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaEnvelope, FaEdit, FaGlobe } from "react-icons/fa";
-
-const sampleBuyer = {
-  name: "Sultan Mahmud",
-  avatar: "https://i.pravatar.cc/150?img=16",
-  company: "Pixel Creators Ltd.",
-  bio: "We're a creative agency helping startups and enterprises with branding, web solutions, and digital strategies.",
-  website: "https://pixelcreators.com",
-};
+import { FaEnvelope, FaEdit } from "react-icons/fa";
+import axios from "axios";
 
 const BuyerProfile = () => {
-  const [profile, setProfile] = useState(sampleBuyer);
+  const [profile, setProfile] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const modalRef = useRef();
+
+  const buyerId = localStorage.getItem("pg_user_id");
+  if (!buyerId) return;
+
+  // Fetch user data
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const res = await axios.get(`http://localhost:8000/users/${buyerId}`);
+        setProfile(res.data);
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
 
   // Outside click closes modal
   useEffect(() => {
@@ -30,18 +43,56 @@ const BuyerProfile = () => {
     return () => document.removeEventListener("mousedown", handler);
   }, [editModalOpen]);
 
-  const handleEdit = (e) => {
+  const handleEdit = async (e) => {
     e.preventDefault();
     const form = e.target;
-    setProfile({
-      ...profile,
-      name: form.name.value,
-      company: form.company.value,
-      bio: form.bio.value,
-      website: form.website.value,
-    });
-    setEditModalOpen(false);
+
+    try {
+      const updatedData = {
+        name: form.name.value,
+        bio: form.bio.value,
+        skills: form.skills.value,
+      };
+
+      // Update in backend
+      const response = await axios.put(
+        `http://localhost:8000/users/${buyerId}`,
+        updatedData,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+
+      console.log(response);
+      // Update local state
+      setProfile((prev) => ({
+        ...prev,
+        ...updatedData,
+      }));
+
+      setEditModalOpen(false);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
   };
+
+  if (isLoading) {
+    return (
+      <div className="max-w-3xl mx-auto bg-white shadow p-8 rounded-xl mt-10 text-center">
+        Loading profile...
+      </div>
+    );
+  }
+
+  if (!profile) {
+    return (
+      <div className="max-w-3xl mx-auto bg-white shadow p-8 rounded-xl mt-10 text-center">
+        Error loading profile
+      </div>
+    );
+  }
 
   return (
     <motion.div
@@ -53,36 +104,68 @@ const BuyerProfile = () => {
       {/* Header */}
       <div className="flex items-center gap-6">
         <img
-          src={profile.avatar}
+          src={
+            profile.profile_pic
+              ? `http://localhost:8000/gigs/image/${profile.profile_pic
+                  .split("/")
+                  .pop()}`
+              : "/pro-pic.webp"
+          }
           alt={profile.name}
-          className="w-24 h-24 rounded-full object-cover border-4 border-blue-100"
+          className="w-24 h-24 rounded-full object-cover border-4 border-blue-100 cursor-pointer"
+          onClick={() => document.getElementById("uploadInput").click()}
         />
+        <input
+          type="file"
+          id="uploadInput"
+          className="hidden"
+          accept="image/*"
+          onChange={async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const formData = new FormData();
+            formData.append("image", file);
+
+            try {
+              const res = await axios.post(
+                `http://localhost:8000/users/${buyerId}/upload-pic`,
+                formData,
+                {
+                  headers: {
+                    "Content-Type": "multipart/form-data",
+                  },
+                }
+              );
+              setProfile((prev) => ({
+                ...prev,
+                profile_pic: res.data.profile_pic,
+              }));
+            } catch (err) {
+              console.error("Failed to upload profile pic", err);
+            }
+          }}
+        />
+
         <div>
           <h2 className="text-2xl font-bold text-gray-800">{profile.name}</h2>
-          <p className="text-[#6fa1bd] font-medium">{profile.company}</p>
+          <p className="text-gray-500">{profile.role}</p>
         </div>
       </div>
 
       {/* Bio */}
       <div>
-        <h3 className="text-lg font-semibold text-gray-700 mb-1">
-          About
-        </h3>
-        <p className="text-sm text-gray-600">{profile.bio}</p>
+        <h3 className="text-lg font-semibold text-gray-700 mb-1">About</h3>
+        <p className="text-sm text-gray-600">
+          {profile.bio || "No bio provided yet!"}
+        </p>
       </div>
 
-      {/* Website */}
-      {profile.website && (
+      {/* Skills */}
+      {profile.skills && (
         <div>
-          <h3 className="text-lg font-semibold text-gray-700 mb-1">Website</h3>
-          <a
-            href={profile.website}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[#6fa1bd] text-sm flex items-center gap-1 hover:underline"
-          >
-            <FaGlobe /> {profile.website}
-          </a>
+          <h3 className="text-lg font-semibold text-gray-700 mb-1">Skills</h3>
+          <p className="text-sm text-gray-600">{profile.skills}</p>
         </div>
       )}
 
@@ -116,7 +199,7 @@ const BuyerProfile = () => {
               exit={{ y: 100 }}
             >
               <h3 className="text-lg font-bold text-[#6fa1bd] mb-4">
-                Edit Buyer Profile
+                Edit Profile
               </h3>
               <form onSubmit={handleEdit} className="space-y-4">
                 <div>
@@ -127,26 +210,7 @@ const BuyerProfile = () => {
                     name="name"
                     defaultValue={profile.name}
                     className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[#6fa1bd]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-600 mb-1">
-                    Company
-                  </label>
-                  <input
-                    name="company"
-                    defaultValue={profile.company}
-                    className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[#6fa1bd]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-600 mb-1">
-                    Website
-                  </label>
-                  <input
-                    name="website"
-                    defaultValue={profile.website}
-                    className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[#6fa1bd]"
+                    required
                   />
                 </div>
                 <div>
@@ -159,6 +223,17 @@ const BuyerProfile = () => {
                     rows="4"
                     className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[#6fa1bd]"
                   ></textarea>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-600 mb-1">
+                    Skills (comma separated)
+                  </label>
+                  <input
+                    name="skills"
+                    defaultValue={profile.skills}
+                    className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[#6fa1bd]"
+                    placeholder="e.g., Design, Marketing, Web Development"
+                  />
                 </div>
 
                 <div className="flex justify-end gap-3 pt-4">

@@ -11,11 +11,29 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../hooks/useAuth";
 import Loading from "../components/Loading";
+import axios from "axios";
 
 const Dashboard = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const { user, userLogOut } = useAuth();
   const navigate = useNavigate();
+  const [pgUser, setPgUser] = useState(null);
+
+  const userId = localStorage.getItem("pg_user_id");
+
+  useEffect(() => {
+      if (!userId) return;
+    const fetchPgUser = async () => {
+      try {
+        const res = await axios.get(`http://localhost:8000/users/${userId}`);
+        setPgUser(res.data);
+      } catch (err) {
+        console.error("Failed to fetch PostgreSQL user", err);
+      }
+    };
+
+    fetchPgUser();
+  }, [userId]);
 
   const { data: users = [], isLoading } = useQuery({
     queryKey: ["tasks"],
@@ -33,8 +51,8 @@ const Dashboard = () => {
   if (!currentUser || !role) {
     return <Loading />;
   }
-  console.log(role);
-  console.log(currentUser);
+  // console.log(role);
+  // console.log(currentUser);
 
   const roleName =
     role === "freelancer" ? "Freelancer" : role === "buyer" ? "Buyer" : "Admin";
@@ -70,7 +88,7 @@ const Dashboard = () => {
 
   const handleLogOut = () => {
     userLogOut().then(() => console.log("Logged Out"));
-    navigate("/")
+    navigate("/");
   };
 
   return (
@@ -147,7 +165,7 @@ const Dashboard = () => {
               role === "freelancer"
                 ? "freelancer-profiel"
                 : role === "buyer"
-                ? "buyer-profile"
+                ? "/buyer/profile"
                 : "admin-profile"
             }
             className="flex items-center gap-3 bg-gray-100 rounded-2xl px-4 py-1 hover:bg-gray-300 cursor-pointer"
@@ -157,9 +175,15 @@ const Dashboard = () => {
               <span className="text-sm text-gray-500">{roleName}</span>
             </div>
             <img
-              src="https://i.pravatar.cc/100"
-              className="w-8 h-8 rounded-full"
-              alt="User"
+              src={
+                pgUser?.profile_pic
+                  ? `http://localhost:8000/gigs/image/${pgUser.profile_pic
+                      .split("/")
+                      .pop()}`
+                  : "/pro-pic.webp"
+              }
+              className="w-8 h-8 rounded-full object-cover border"
+              alt={currentUser.name}
             />
           </Link>
         </header>
