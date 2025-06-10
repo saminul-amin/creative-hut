@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import ProjectDetailsModal from "./ProjectDetailsModal";
+import axios from "axios";
 
 const sampleProjects = [
   {
@@ -32,14 +33,72 @@ const sampleProjects = [
 const statuses = ["All", "In Progress", "Completed", "Pending"];
 
 const MyProjects = () => {
+  const [projects, setProjects] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState("All");
   const [selectedProject, setSelectedProject] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
 
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const buyerId = localStorage.getItem("pg_user_id");
+      if (!buyerId) return;
+
+      try {
+        const res = await axios.get(
+          `http://localhost:8000/jobs/buyer/${buyerId}`
+        );
+        // Optionally map or enrich data
+        const mapped = res.data.map((job) => ({
+          id: job.id,
+          title: job.title,
+          category: job.category || "General",
+          status: "Pending", // hardcoded for now, you can improve later
+          deadline: job.deadline || "—",
+          freelancer: null, // until you assign freelancer feature
+        }));
+        setProjects(mapped);
+      } catch (err) {
+        console.error("Failed to load projects:", err);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
   const filteredProjects =
     selectedStatus === "All"
-      ? sampleProjects
-      : sampleProjects.filter((proj) => proj.status === selectedStatus);
+      ? projects
+      : projects.filter((proj) => proj.status === selectedStatus);
+
+  const handleProjectUpdate = async (updatedProject) => {
+    try {
+      const formData = new URLSearchParams();
+      formData.append("title", updatedProject.title);
+      formData.append("category", updatedProject.category);
+      formData.append("deadline", updatedProject.deadline);
+      formData.append("status", updatedProject.status);
+      formData.append("freelancer", updatedProject.freelancer || "");
+
+      const res = await axios.put(
+        `http://localhost:8000/jobs/${updatedProject.id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+
+      // Update the local UI
+      setProjects((prev) =>
+        prev.map((proj) =>
+          proj.id === updatedProject.id ? { ...proj, ...updatedProject } : proj
+        )
+      );
+    } catch (err) {
+      console.error("Failed to update project:", err);
+    }
+  };
 
   return (
     <motion.div
@@ -123,11 +182,7 @@ const MyProjects = () => {
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
         project={selectedProject}
-        onSave={(updatedProject) => {
-          // handle update logic here (e.g., API call + UI refresh)
-          console.log(updatedProject);
-          setModalOpen(false);
-        }}
+        onSave={handleProjectUpdate}
       />
     </motion.div>
   );

@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
+import axios from "axios";
 
 const PostJob = () => {
   const {
@@ -9,10 +10,32 @@ const PostJob = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log("Job Posted:", data);
-    reset();
-    // 🔄 You can send this to your backend via fetch or axios
+  const onSubmit = async (data) => {
+    const formData = new URLSearchParams();
+    formData.append("title", data.title);
+    formData.append("description", data.description);
+    formData.append("category", data.category);
+    formData.append("budget_type", data.budgetType); // 🧠 Match FastAPI param
+    formData.append("deadline", data.deadline);
+    formData.append("skills", data.skills);
+
+    // 👇 Pull buyer_id from localStorage
+    const buyerId = localStorage.getItem("pg_user_id");
+    if (!buyerId) {
+      console.error("No buyer ID found in localStorage");
+      return;
+    }
+    formData.append("buyer_id", buyerId);
+
+    try {
+      const res = await axios.post("http://localhost:8000/jobs/", formData, {
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      });
+      console.log("Job posted:", res.data);
+      reset();
+    } catch (error) {
+      console.error("Error posting job:", error);
+    }
   };
 
   return (
