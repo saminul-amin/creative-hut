@@ -70,7 +70,7 @@ const FeaturedFreelancers = () => {
     <section className="from-[#6fa1bd] to-blue-50 bg-gradient-to-tr">
       <div className="max-w-7xl mx-auto py-16 px-4 md:px-12 ">
         <div className="max-w-7xl mx-auto text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-blue-800 mb-2">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-[#6fa1bd] mb-2">
             Featured Freelancers
           </h2>
           <p className="text-gray-600 text-md">
@@ -97,7 +97,7 @@ const FeaturedFreelancers = () => {
               />
 
               <div className="p-6 flex-1 flex flex-col justify-between">
-                <h3 className="text-lg font-semibold text-blue-700 mb-1">
+                <h3 className="text-lg font-semibold text-[#6fa1bd] mb-1">
                   {freelancer.role}
                 </h3>
                 <p className="text-gray-800 mb-2">By {freelancer.name}</p>

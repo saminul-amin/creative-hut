@@ -1,4 +1,4 @@
-import { Outlet, NavLink, Link } from "react-router-dom";
+import { Outlet, NavLink, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
@@ -14,7 +14,8 @@ import Loading from "../components/Loading";
 
 const Dashboard = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
-  const { user } = useAuth();
+  const { user, userLogOut } = useAuth();
+  const navigate = useNavigate();
 
   const { data: users = [], isLoading } = useQuery({
     queryKey: ["tasks"],
@@ -67,6 +68,11 @@ const Dashboard = () => {
         ],
   ];
 
+  const handleLogOut = () => {
+    userLogOut().then(() => console.log("Logged Out"));
+    navigate("/")
+  };
+
   return (
     <div className="flex min-h-screen bg-gray-100">
       {/* Sidebar */}
@@ -118,7 +124,8 @@ const Dashboard = () => {
 
         <div className="mt-auto px-4 w-full">
           <button
-            className={`flex items-center gap-3 w-full text-red-600 hover:bg-red-50 py-2 rounded-md ${
+            onClick={handleLogOut}
+            className={`flex items-center gap-3 w-full text-red-600 hover:bg-red-50 py-2 rounded-md cursor-pointer ${
               isSidebarOpen ? "px-3" : "px-0"
             }`}
           >

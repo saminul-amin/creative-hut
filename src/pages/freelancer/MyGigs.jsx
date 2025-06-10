@@ -1,9 +1,10 @@
 // ✅ MyGigs.jsx — Card View + Pagination + Edit Modal + Route-based Gig Creation
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaEdit, FaTrash, FaPlus, FaTimes } from "react-icons/fa";
+import axios from "axios";
 
 const sampleGigs = [
   {
@@ -105,33 +106,81 @@ const sampleGigs = [
 ];
 
 const MyGigs = () => {
-  const [gigs, setGigs] = useState(sampleGigs);
+  const [gigs, setGigs] = useState([]);
   const [selectedGig, setSelectedGig] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const gigsPerPage = 6;
   const navigate = useNavigate();
 
-  const handleDelete = (id) => {
-    setGigs((prev) => prev.filter((gig) => gig.id !== id));
+  useEffect(() => {
+    const fetchGigs = async () => {
+      const userId = localStorage.getItem("pg_user_id");
+      if (!userId) return;
+
+      try {
+        const res = await axios.get(
+          `http://localhost:8000/gigs/freelancer/${userId}`
+        );
+        // Add thumbnail fallback and default status
+        const updatedGigs = res.data.map((gig) => ({
+          ...gig,
+          thumbnail: `http://localhost:8000/gigs/image/${gig.image_path
+            ?.split("/")
+            .pop()}`,
+          status: "Active", // default until status feature is added
+        }));
+        setGigs(updatedGigs);
+      } catch (error) {
+        console.error("Error fetching gigs:", error);
+      }
+    };
+
+    fetchGigs();
+  }, []);
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:8000/gigs/${id}`);
+      setGigs((prev) => prev.filter((gig) => gig.id !== id));
+    } catch (error) {
+      console.error("Failed to delete gig:", error);
+    }
   };
 
   const handleEdit = (gig) => {
     setSelectedGig(gig);
   };
 
-  const handleUpdateGig = (e) => {
+  const handleUpdateGig = async (e) => {
     e.preventDefault();
     const form = e.target;
     const updated = {
-      ...selectedGig,
       title: form.title.value,
       category: form.category.value,
       price: parseInt(form.price.value),
     };
-    setGigs((prev) =>
-      prev.map((gig) => (gig.id === updated.id ? updated : gig))
-    );
-    setSelectedGig(null);
+
+    try {
+      const res = await axios.put(
+        `http://localhost:8000/gigs/${selectedGig.id}`,
+        new URLSearchParams(updated),
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+
+      // Update local UI
+      setGigs((prev) =>
+        prev.map((gig) =>
+          gig.id === selectedGig.id ? { ...gig, ...updated } : gig
+        )
+      );
+      setSelectedGig(null);
+    } catch (error) {
+      console.error("Failed to update gig:", error);
+    }
   };
 
   // Pagination logic
@@ -158,6 +207,12 @@ const MyGigs = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-2">
+        {gigs.length === 0 && (
+          <p className="text-red-600 text-center mt-10 lg:col-span-3 sm:col-span-2">
+            No gigs found.
+          </p>
+        )}
+
         {currentGigs.map((gig) => (
           <motion.div
             key={gig.id}
@@ -267,20 +322,20 @@ const MyGigs = () => {
                   <button
                     type="button"
                     onClick={() => setSelectedGig(null)}
-                    className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300"
+                    className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 cursor-pointer"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-2 rounded bg-[#6fa1bd] text-white hover:bg-[#5a8aa3]"
+                    className="px-4 py-2 rounded bg-[#6fa1bd] text-white hover:bg-[#5a8aa3] cursor-pointer"
                   >
                     Update
                   </button>
                 </div>
               </form>
               <button
-                className="absolute top-3 right-4 text-gray-400 hover:text-red-500 text-xl"
+                className="absolute top-3 right-4 text-gray-400 hover:text-red-500 text-xl cursor-pointer"
                 onClick={() => setSelectedGig(null)}
               >
                 <FaTimes />

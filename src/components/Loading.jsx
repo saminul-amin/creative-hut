@@ -11,14 +11,14 @@ const Loading = () => {
       >
         {/* Spinning Circle */}
         <motion.div
-          className="w-16 h-16 border-4 border-blue-400 border-t-transparent rounded-full animate-spin"
+          className="w-16 h-16 border-4 border-[#6fa1bd] border-t-transparent rounded-full animate-spin"
           animate={{ rotate: 360 }}
           transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
         />
 
         {/* Loading Text */}
         <motion.p
-          className="text-xl font-semibold text-blue-700"
+          className="text-xl font-semibold text-[#6fa1bd]"
           initial={{ y: 10, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2 }}
