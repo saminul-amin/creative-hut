@@ -163,7 +163,7 @@ const Dashboard = () => {
           <Link
             to={
               role === "freelancer"
-                ? "freelancer-profiel"
+                ? "/freelancer/profile"
                 : role === "buyer"
                 ? "/buyer/profile"
                 : "admin-profile"

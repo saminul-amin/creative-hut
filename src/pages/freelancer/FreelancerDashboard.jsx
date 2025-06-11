@@ -6,6 +6,7 @@ import {
   FaPlus,
   FaRocket,
 } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const stats = {
   earnings: 1580,
@@ -26,6 +27,8 @@ const gigSummary = {
 };
 
 const FreelancerDashboard = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="space-y-10">
       {/* Welcome Banner */}
@@ -107,7 +110,10 @@ const FreelancerDashboard = () => {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
       >
-        <button className="flex-1 font-semibold bg-[#6fa1bd] hover:bg-[#5a8aa3] text-white py-3 rounded-lg flex justify-center items-center gap-2 transition-all cursor-pointer">
+        <button
+          onClick={() => navigate("/freelancer/new-gig")}
+          className="flex-1 font-semibold bg-[#6fa1bd] hover:bg-[#5a8aa3] text-white py-3 rounded-lg flex justify-center items-center gap-2 transition-all cursor-pointer"
+        >
           <FaPlus /> Create New Gig
         </button>
         <button className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-3 rounded-lg flex justify-center items-center gap-2 transition-all cursor-pointer">

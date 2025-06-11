@@ -1,39 +1,85 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
+import axios from "axios";
 
 const MySkills = () => {
-  const [skills, setSkills] = useState([
-    { id: 1, name: "React", level: "Advanced" },
-    { id: 2, name: "Tailwind CSS", level: "Intermediate" },
-  ]);
-
+  const [skills, setSkills] = useState([]);
   const [formState, setFormState] = useState({ name: "", level: "Beginner" });
-  const [editId, setEditId] = useState(null);
+  const [editIndex, setEditIndex] = useState(null);
+  const userId = localStorage.getItem("pg_user_id");
 
-  const handleAddOrUpdate = (e) => {
+  // Fetch skills from the user profile (comma-separated string)
+  useEffect(() => {
+    const fetchSkills = async () => {
+      try {
+        const res = await axios.get(`http://localhost:8000/users/${userId}`);
+        const skillString = res.data.skills || "";
+        const parsedSkills = skillString
+          .split(",")
+          .filter(Boolean)
+          .map((s, i) => {
+            const [name, level] = s.trim().split(":");
+            return { id: i + 1, name: name || "", level: level || "Beginner" };
+          });
+        setSkills(parsedSkills);
+      } catch (err) {
+        console.error("Failed to load user skills", err);
+      }
+    };
+
+    fetchSkills();
+  }, [userId]);
+
+  // Save updated skills to backend
+  const saveSkillsToBackend = async (updatedSkills) => {
+    const skillsString = updatedSkills
+      .map((s) => `${s.name}:${s.level}`)
+      .join(",");
+    try {
+      await axios.put(
+        `http://localhost:8000/users/${userId}`,
+        new URLSearchParams({
+          name: "-", // dummy since name is required in the backend
+          bio: "-", // dummy if not using
+          skills: skillsString,
+        }),
+        {
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        }
+      );
+    } catch (err) {
+      console.error("Failed to update skills", err);
+    }
+  };
+
+  const handleAddOrUpdate = async (e) => {
     e.preventDefault();
     if (!formState.name.trim()) return;
 
-    if (editId) {
-      setSkills((prev) =>
-        prev.map((s) => (s.id === editId ? { ...s, ...formState } : s))
-      );
-      setEditId(null);
+    let updatedSkills;
+    if (editIndex !== null) {
+      updatedSkills = [...skills];
+      updatedSkills[editIndex] = { ...formState, id: skills[editIndex].id };
+      setEditIndex(null);
     } else {
-      setSkills((prev) => [...prev, { id: Date.now(), ...formState }]);
+      updatedSkills = [...skills, { id: Date.now(), ...formState }];
     }
 
+    setSkills(updatedSkills);
     setFormState({ name: "", level: "Beginner" });
+    await saveSkillsToBackend(updatedSkills);
   };
 
-  const handleEdit = (skill) => {
+  const handleEdit = (skill, index) => {
     setFormState({ name: skill.name, level: skill.level });
-    setEditId(skill.id);
+    setEditIndex(index);
   };
 
-  const handleDelete = (id) => {
-    setSkills((prev) => prev.filter((s) => s.id !== id));
+  const handleDelete = async (id) => {
+    const updatedSkills = skills.filter((s) => s.id !== id);
+    setSkills(updatedSkills);
+    await saveSkillsToBackend(updatedSkills);
   };
 
   return (
@@ -76,7 +122,7 @@ const MySkills = () => {
           type="submit"
           className="sm:col-span-2 bg-[#6fa1bd] hover:bg-[#5a8aa3] text-white px-4 py-2 rounded cursor-pointer"
         >
-          {editId ? "Update Skill" : "Add Skill"}
+          {editIndex !== null ? "Update Skill" : "Add Skill"}
         </button>
       </form>
 
@@ -90,7 +136,7 @@ const MySkills = () => {
         ) : (
           <ul className="space-y-3">
             <AnimatePresence>
-              {skills.map((skill) => (
+              {skills.map((skill, index) => (
                 <motion.li
                   key={skill.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -104,7 +150,7 @@ const MySkills = () => {
                   </div>
                   <div className="flex gap-3">
                     <button
-                      onClick={() => handleEdit(skill)}
+                      onClick={() => handleEdit(skill, index)}
                       className="text-yellow-600 hover:text-yellow-800 cursor-pointer"
                       title="Edit"
                     >
