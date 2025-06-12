@@ -11,7 +11,6 @@ const SubmissionPage = () => {
 
   const onSubmit = (data) => {
     console.log("Submitted Proposal:", data);
-    // TODO: send to server
     reset();
   };
 

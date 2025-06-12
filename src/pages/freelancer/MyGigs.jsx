@@ -1,5 +1,3 @@
-// ✅ MyGigs.jsx — Card View + Pagination + Edit Modal + Route-based Gig Creation
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -121,7 +119,6 @@ const MyGigs = () => {
         const res = await axios.get(
           `http://localhost:8000/gigs/freelancer/${userId}`
         );
-        // Add thumbnail fallback and default status
         const updatedGigs = res.data.map((gig) => ({
           ...gig,
           thumbnail: `http://localhost:8000/gigs/image/${gig.image_path

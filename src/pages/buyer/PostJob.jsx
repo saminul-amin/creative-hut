@@ -15,11 +15,10 @@ const PostJob = () => {
     formData.append("title", data.title);
     formData.append("description", data.description);
     formData.append("category", data.category);
-    formData.append("budget_type", data.budgetType); // 🧠 Match FastAPI param
+    formData.append("budget_type", data.budgetType);
     formData.append("deadline", data.deadline);
     formData.append("skills", data.skills);
 
-    // 👇 Pull buyer_id from localStorage
     const buyerId = localStorage.getItem("pg_user_id");
     if (!buyerId) {
       console.error("No buyer ID found in localStorage");

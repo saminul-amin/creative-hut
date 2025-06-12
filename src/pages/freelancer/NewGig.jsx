@@ -18,12 +18,12 @@ const NewGig = () => {
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("description", data.description);
-    formData.append("category", data.category); // optional backend param
+    formData.append("category", data.category);
     formData.append("price", data.price);
     formData.append("revisions", data.revisions);
     formData.append("delivery", data.delivery);
     formData.append("image", data.thumbnail[0]); // file input
-    // formData.append("user_id", 1); // TEMP: replace with logged-in freelancer's ID
+    // formData.append("user_id", 1);
     const pgUserId = localStorage.getItem("pg_user_id");
     formData.append("user_id", pgUserId);
 

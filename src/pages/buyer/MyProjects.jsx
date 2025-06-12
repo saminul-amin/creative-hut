@@ -47,14 +47,13 @@ const MyProjects = () => {
         const res = await axios.get(
           `http://localhost:8000/jobs/buyer/${buyerId}`
         );
-        // Optionally map or enrich data
         const mapped = res.data.map((job) => ({
           id: job.id,
           title: job.title,
           category: job.category || "General",
-          status: "Pending", // hardcoded for now, you can improve later
+          status: "Pending", 
           deadline: job.deadline || "—",
-          freelancer: null, // until you assign freelancer feature
+          freelancer: null, 
         }));
         setProjects(mapped);
       } catch (err) {

@@ -9,7 +9,6 @@ const MySkills = () => {
   const [editIndex, setEditIndex] = useState(null);
   const userId = localStorage.getItem("pg_user_id");
 
-  // Fetch skills from the user profile (comma-separated string)
   useEffect(() => {
     const fetchSkills = async () => {
       try {
@@ -40,8 +39,8 @@ const MySkills = () => {
       await axios.put(
         `http://localhost:8000/users/${userId}`,
         new URLSearchParams({
-          name: "-", // dummy since name is required in the backend
-          bio: "-", // dummy if not using
+          name: "-", // dummy 
+          bio: "-", // dummy 
           skills: skillsString,
         }),
         {

@@ -23,8 +23,8 @@ const FreelancerProfile = () => {
           tagline: res.data.tagline || "Freelancer",
           bio: res.data.bio || "",
           skills: skillsArray,
-          rating: 4.8, // optional static for now
-          reviews: 35, // optional static for now
+          rating: 4.8, // static for now
+          reviews: 35, // static for now
         });
       } catch (error) {
         console.error("Error loading profile", error);

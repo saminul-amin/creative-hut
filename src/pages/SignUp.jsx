@@ -16,7 +16,6 @@ export default function SignUp() {
   const navigate = useNavigate();
 
   const onSubmit = (data) => {
-    // Save to MongoDB
     fetch("https://creative-hut-server.vercel.app/users", {
       method: "POST",
       headers: {
@@ -32,7 +31,6 @@ export default function SignUp() {
       .then((mongoData) => {
         console.log("Saved to MongoDB:", mongoData);
 
-        // ✅ Save to PostgreSQL (FastAPI)
         fetch("http://localhost:8000/users/", {
           method: "POST",
           body: new URLSearchParams({
@@ -52,10 +50,9 @@ export default function SignUp() {
               .then((res) => res.json())
               .then((pgUser) => {
                 console.log("PostgreSQL user:", pgUser);
-                localStorage.setItem("pg_user_id", pgUser.id); // ✅ save it
+                localStorage.setItem("pg_user_id", pgUser.id);
               });
 
-            // ✅ Firebase user creation
             if (mongoData.insertId !== null) {
               createUser(data.email, data.password).then((res) => {
                 console.log(res.user);
