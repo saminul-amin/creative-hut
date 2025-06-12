@@ -38,14 +38,15 @@ const FreelancerProfile = () => {
   const handleEditSave = async (e) => {
     e.preventDefault();
     const form = e.target;
-    const updated = {
-      name: form.name.value,
-      tagline: form.tagline.value,
-      bio: form.bio.value,
-      skills: form.skills.value, // comma-separated string
-    };
 
     try {
+      const updated = {
+        name: form.name.value,
+        tagline: form.tagline.value,
+        bio: form.bio.value,
+        skills: form.skills.value, // comma-separated string
+      };
+
       const res = await axios.put(
         `http://localhost:8000/users/${userId}`,
         updated,

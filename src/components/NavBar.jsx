@@ -8,26 +8,32 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, userLogOut } = useAuth();
   const role = useRole();
-  // console.log(role);
 
   const navLinks = [
     ...(user
-      ? [
-          { name: "Dashboard", href: `/${role}/dashboard` },
-          { name: "Browse Jobs", href: "/all-jobs" },
-          { name: "My Works", href: "/my-works" },
-          { name: "Profile", href: "/profile" },
-          { name: "Sign Out" },
-        ]
+      ? role === "buyer"
+        ? [
+            { name: "Dashboard", href: "/buyer/dashboard" },
+            { name: "Create Job", href: "/buyer/post-job" },
+            { name: "My Projects", href: "/buyer/my-projects" },
+            { name: "Profile", href: "/buyer/profile" },
+            { name: "Sign Out" },
+          ]
+        : [
+            { name: "Dashboard", href: "/freelancer/dashboard" },
+            { name: "Browse Jobs", href: "/freelancer/browse-jobs" },
+            { name: "My Gigs", href: "/freelancer/my-gigs" },
+            { name: "Profile", href: "/freelancer/profile" },
+            { name: "Sign Out" },
+          ]
       : [
           { name: "Home", href: "/" },
           { name: "About Us", href: "/about-us" },
-          { name: "Browse Jobs", href: "/all-jobs" },
+          { name: "All Jobs", href: "/freelancer/browse-jobs" },
           { name: "Log in", href: "/login" },
           { name: "Sign Up", href: "/sign-up" },
         ]),
   ];
-  // console.log(role);
 
   const handleSignOut = () => {
     userLogOut().then(() => console.log("Logged Out"));
@@ -39,7 +45,7 @@ const Navbar = () => {
         <div className="container mx-auto flex justify-between items-center">
           <Link
             to={"/"}
-            className="text-2xl font-bold transition-all duration-300 ease-in-out transform hover:scale-105 hover:text-yellow-300 cursor-pointer"
+            className="text-2xl font-bold transition-all duration-400 ease-in-out transform hover:scale-105 cursor-pointer hover:text-shadow hover:shadow-2xl"
           >
             CreativeHut
           </Link>
@@ -49,14 +55,14 @@ const Navbar = () => {
                 <button
                   key={link.name}
                   onClick={handleSignOut}
-                  className="transition-all duration-300 ease-in-out transform px-4 py-2 cursor-pointer hover:scale-105 hover:text-yellow-300"
+                  className="transition-all duration-300 ease-in-out transform px-4 py-2 cursor-pointer hover:scale-105 hover:underline"
                 >
                   {link.name}
                 </button>
               ) : (
                 <Link key={link.name} to={link.href}>
                   <button
-                    className={`transition-all duration-300 ease-in-out transform px-4 py-2 cursor-pointer hover:scale-105 hover:text-yellow-300 ${
+                    className={`transition-all duration-300 ease-in-out transform px-4 py-2 cursor-pointer hover:scale-105 hover:underline ${
                       link.name === "Get Started" &&
                       "bg-stone-400 hover:bg-stone-600 rounded-2xl"
                     }`}

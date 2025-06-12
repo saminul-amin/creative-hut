@@ -4,11 +4,11 @@ import { FaStar, FaMapMarkerAlt } from "react-icons/fa";
 const freelancers = [
   {
     id: 1,
-    name: "Jannatul Ferdous",
+    name: "Sarjis Chowdhury",
     role: "Full Stack Web Development",
     location: "Dhaka",
     rating: 4.9,
-    gigImage: "https://source.unsplash.com/featured/?coding",
+    gigImage: "https://i.ibb.co/sJ9qpX78/web-5.webp",
   },
   {
     id: 2,
@@ -16,7 +16,7 @@ const freelancers = [
     role: "UI/UX Design",
     location: "Chittagong",
     rating: 4.8,
-    gigImage: "https://source.unsplash.com/featured/?uxdesign",
+    gigImage: "https://i.ibb.co/Zz138QXH/graphic-2.webp",
   },
   {
     id: 3,
@@ -24,7 +24,7 @@ const freelancers = [
     role: "Digital Marketing",
     location: "Sylhet",
     rating: 4.7,
-    gigImage: "https://source.unsplash.com/featured/?digitalmarketing",
+    gigImage: "https://i.ibb.co/gLB0Cc4k/graphic-1.webp",
   },
   {
     id: 4,
@@ -32,23 +32,23 @@ const freelancers = [
     role: "Creative Content Writing",
     location: "Rajshahi",
     rating: 4.6,
-    gigImage: "https://source.unsplash.com/featured/?writing",
+    gigImage: "https://i.ibb.co/Jww8hLH5/content-1.webp",
   },
   {
     id: 5,
-    name: "Nusrat Jahan",
+    name: "Tawsif Rahman",
     role: "SEO & Analytics",
     location: "Khulna",
     rating: 4.9,
-    gigImage: "https://source.unsplash.com/featured/?seo",
+    gigImage: "https://i.ibb.co.com/PsnP1cmt/content-5.webp",
   },
   {
     id: 6,
     name: "Faisal Ahmed",
-    role: "Video Editing",
+    role: "WordPress Development",
     location: "Barisal",
     rating: 4.8,
-    gigImage: "https://source.unsplash.com/featured/?videoediting",
+    gigImage: "https://i.ibb.co/96GcHgh/web-2.webp",
   },
 ];
 

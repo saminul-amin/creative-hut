@@ -20,12 +20,12 @@ export default function useRole() {
 
   // console.log(users);
   const currentUser = users?.filter((entry) => user?.email === entry.email)[0];
-  console.log(currentUser)
+  // console.log(currentUser)
   const role = currentUser?.role;
   if (!currentUser || !role) {
     return <Loading />;
   }
-  console.log(role);
+  // console.log(role);
 
   return role;
 }
