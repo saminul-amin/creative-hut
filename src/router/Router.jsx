@@ -25,6 +25,7 @@ import Users from "../pages/admin/Users";
 import AllProjects from "../pages/admin/AllProjects";
 import PayoutRequests from "../pages/admin/PayoutRequests";
 import NewGig from "../pages/freelancer/NewGig";
+import Courses from "../pages/Courses";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
       {
         path: "login",
         element: <SignIn />,
+      },
+      {
+        path: "courses",
+        element: <Courses />,
       },
       {
         path: "faq",
