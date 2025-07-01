@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
+import axios from "axios";
 
 export default function ContactUs() {
   const {
@@ -9,9 +10,14 @@ export default function ContactUs() {
     reset,
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log("Contact Form Data:", data);
-    reset();
+  const onSubmit = async (data) => {
+    try {
+      const res = await axios.post("http://localhost:8000/contact", data);
+      console.log("Server response:", res.data);
+      reset();
+    } catch (error) {
+      console.error("Submission failed:", error);
+    }
   };
 
   return (
@@ -32,7 +38,8 @@ export default function ContactUs() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
         >
-          Have questions or feedback? We'd love to hear from you. Fill out the form and our team will get back to you shortly.
+          Have questions or feedback? We'd love to hear from you. Fill out the
+          form and our team will get back to you shortly.
         </motion.p>
 
         <motion.form
@@ -75,7 +82,9 @@ export default function ContactUs() {
               placeholder="you@example.com"
             />
             {errors.email && (
-              <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.email.message}
+              </p>
             )}
           </div>
 
@@ -90,7 +99,9 @@ export default function ContactUs() {
               placeholder="Type your message here..."
             ></textarea>
             {errors.message && (
-              <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.message.message}
+              </p>
             )}
           </div>
 
