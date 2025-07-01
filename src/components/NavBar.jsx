@@ -16,6 +16,7 @@ const Navbar = () => {
             { name: "Dashboard", href: "/buyer/dashboard" },
             { name: "Create Job", href: "/buyer/post-job" },
             { name: "My Projects", href: "/buyer/my-projects" },
+            { name: "Courses", href: "/courses" },
             { name: "Profile", href: "/buyer/profile" },
             { name: "Sign Out" },
           ]
@@ -23,13 +24,14 @@ const Navbar = () => {
             { name: "Dashboard", href: "/freelancer/dashboard" },
             { name: "Browse Jobs", href: "/freelancer/browse-jobs" },
             { name: "My Gigs", href: "/freelancer/my-gigs" },
+            { name: "Courses", href: "/courses" },
             { name: "Profile", href: "/freelancer/profile" },
             { name: "Sign Out" },
           ]
       : [
           { name: "Home", href: "/" },
           { name: "About Us", href: "/about-us" },
-          { name: "All Jobs", href: "/freelancer/browse-jobs" },
+          { name: "Courses", href: "/courses" },
           { name: "Log in", href: "/login" },
           { name: "Sign Up", href: "/sign-up" },
         ]),
