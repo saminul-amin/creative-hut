@@ -1,12 +1,7 @@
 import { Outlet, NavLink, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import {
-  FaHome,
-  FaSignOutAlt,
-  FaBars,
-  FaArrowLeft,
-} from "react-icons/fa";
+import { FaHome, FaSignOutAlt, FaBars, FaArrowLeft } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../hooks/useAuth";
 import Loading from "../components/Loading";
@@ -21,7 +16,7 @@ const Dashboard = () => {
   const userId = localStorage.getItem("pg_user_id");
 
   useEffect(() => {
-      if (!userId) return;
+    if (!userId) return;
     const fetchPgUser = async () => {
       try {
         const res = await axios.get(`http://localhost:8000/users/${userId}`);
@@ -50,8 +45,6 @@ const Dashboard = () => {
   if (!currentUser || !role) {
     return <Loading />;
   }
-  // console.log(role);
-  // console.log(currentUser);
 
   const roleName =
     role === "freelancer" ? "Freelancer" : role === "buyer" ? "Buyer" : "Admin";
@@ -170,7 +163,7 @@ const Dashboard = () => {
             className="flex items-center gap-3 bg-gray-100 rounded-2xl px-4 py-1 hover:bg-gray-300 cursor-pointer"
           >
             <div className="flex flex-col">
-              <span className="text-sm text-gray-500">{currentUser.name}</span>
+              <span className="text-sm text-gray-500">{pgUser.name}</span>
               <span className="text-sm text-gray-500">{roleName}</span>
             </div>
             <img
@@ -189,7 +182,7 @@ const Dashboard = () => {
 
         {/* Dynamic content */}
         <main className="flex-1 p-6 bg-gray-50">
-          <Outlet />
+          <Outlet key={pgUser.name} />
         </main>
       </div>
     </div>
