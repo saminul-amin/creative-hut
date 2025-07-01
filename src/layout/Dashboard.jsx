@@ -83,6 +83,8 @@ const Dashboard = () => {
     navigate("/");
   };
 
+  if (!pgUser) return <Loading />;
+
   return (
     <div className="flex min-h-screen bg-gray-100">
       {/* Sidebar */}
@@ -163,7 +165,9 @@ const Dashboard = () => {
             className="flex items-center gap-3 bg-gray-100 rounded-2xl px-4 py-1 hover:bg-gray-300 cursor-pointer"
           >
             <div className="flex flex-col">
-              <span className="text-sm text-gray-500">{pgUser.name}</span>
+              <span className="text-sm text-gray-500">
+                {pgUser?.name || "..."}
+              </span>
               <span className="text-sm text-gray-500">{roleName}</span>
             </div>
             <img
@@ -175,7 +179,7 @@ const Dashboard = () => {
                   : "/pro-pic.webp"
               }
               className="w-8 h-8 rounded-full object-cover border"
-              alt={currentUser.name}
+              alt={pgUser?.name || "User"}
             />
           </Link>
         </header>
